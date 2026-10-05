@@ -120,21 +120,20 @@
   .notes-area:focus { outline: none; border-color: var(--accent); }
   .link-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; margin: 4px 6px 4px 0; background: var(--btn-bg); border-radius: 10px; color: var(--text); text-decoration: none; font-size: clamp(12.5px, 3.6vw, 14px); cursor: pointer; border: none; font-family: inherit; }
   .compact-note { background: var(--explain-bg); border-left: 4px solid var(--accent); padding: 10px 14px; border-radius: 8px; font-size: clamp(12.5px, 3.5vw, 14px); color: var(--text-dim); margin-bottom: 12px; }
-  /* Расписание */
   .sched-day { background: var(--card-bg); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; border-left: 4px solid var(--border-muted); }
-  .sched-day.today { border-left-color: var(--today-border); background: linear-gradient(135deg, var(--card-bg) 0%, var(--today-bg) 200%); }
-  .sched-day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .sched-day.today { border-left-color: var(--today-border); }
+  .sched-day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; flex-wrap: wrap; }
   .sched-day-title { font-size: clamp(15px, 4.2vw, 16.5px); font-weight: 700; color: var(--text-bright); }
   .sched-day-date { font-size: clamp(11.5px, 3.2vw, 13px); color: var(--text-dim); }
   .sched-lesson { display: flex; gap: 10px; padding: 6px 0; font-size: clamp(13.5px, 3.8vw, 15px); line-height: 1.45; border-bottom: 1px dashed var(--border-muted); }
   .sched-lesson:last-child { border-bottom: none; }
-  .sched-time { min-width: 96px; color: var(--text-dim); font-size: clamp(12px, 3.4vw, 13.5px); font-variant-numeric: tabular-nums; }
+  .sched-time { min-width: 96px; color: var(--text-dim); font-size: clamp(12px, 3.4vw, 13.5px); font-variant-numeric: tabular-nums; flex-shrink: 0; }
   .sched-subj { flex: 1; color: var(--text); }
   .sched-subj b { color: var(--text-bright); }
   .sched-empty { padding: 6px 0; color: var(--text-dim); font-size: clamp(13px, 3.6vw, 14px); font-style: italic; }
   .routine-row { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--border-muted); font-size: clamp(13.5px, 3.8vw, 15px); }
   .routine-row:last-child { border-bottom: none; }
-  .routine-time { min-width: 130px; color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .routine-time { min-width: 130px; color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; flex-shrink: 0; }
   .routine-what { flex: 1; color: var(--text); }
 </style>
 </head>
@@ -142,7 +141,6 @@
 <div class="wrap" id="app"></div>
 
 <script>
-// ============ ПРЕДМЕТЫ ============
 const SUBJECTS = [
   { id: 'legal', title: 'Правовая подготовка', icon: '📘', cls: 'legal' },
   { id: 'special', title: 'Специальная подготовка', icon: '📗', cls: 'special' },
@@ -152,40 +150,42 @@ const SUBJECTS = [
   { id: 'tactics', title: 'Тактика', icon: '📓', cls: 'tactics' }
 ];
 
-// ============ РАСПИСАНИЕ ============
-// dayIdx: 0=Вс, 1=Пн, 2=Вт, 3=Ср, 4=Чт, 5=Пт, 6=Сб
+// ============ РАСПИСАНИЕ (группа 16, 05–11 октября 2026) ============
 const SCHEDULE = [
   { dayIdx: 1, title: 'Понедельник', date: '05.10.2026', lessons: [
-    { time: '09:00–16:40', subj: '<b>Входной экзамен</b> (физо, права, спец, огневая)' }
+    { time: '09:30–11:00', subj: '<b>Физ. подг.</b> — вх. контроль · 311 ауд.' },
+    { time: '11:10–12:40', subj: '<b>Права: поил.</b> — вх. контроль · 312 ауд.' },
+    { time: '13:25–14:55', subj: '<b>Огн. подг.</b> — вх. контроль · 312 ауд.' },
+    { time: '15:05–16:35', subj: 'Самоподготовка · 312 ауд.' }
   ]},
   { dayIdx: 2, title: 'Вторник', date: '06.10.2026', lessons: [
-    { time: '09:30–11:00', subj: 'Физ. подг. Т.1/1' },
-    { time: '11:10–12:40', subj: 'ТСП Т.1/1' },
-    { time: '13:25–14:55', subj: '<b>Огн. подг. Т.1/1</b>' },
-    { time: '15:05–16:35', subj: 'Самоподготовка' }
+    { time: '09:30–11:00', subj: 'Физ. подг. Т.1/1 — спорт. зал, борьба' },
+    { time: '11:10–12:40', subj: 'ТСП Т.1/1 — 312 ауд., территория' },
+    { time: '13:25–14:55', subj: '<b>Огн. подг. Т.1/1</b> — 312 ауд.' },
+    { time: '15:05–16:35', subj: 'ТСП — консультация · 312 ауд.' }
   ]},
   { dayIdx: 3, title: 'Среда', date: '07.10.2026', lessons: [
-    { time: '09:30–11:00', subj: 'ТСП Т.1/2' },
-    { time: '11:10–12:40', subj: 'Физ. подг. Т.2/1' },
-    { time: '13:25–14:55', subj: 'ТСП Т.1/3' },
-    { time: '15:05–16:35', subj: 'Самоподготовка' }
+    { time: '09:30–11:00', subj: 'ТСП Т.1/2 — 312 ауд., территория' },
+    { time: '11:10–12:40', subj: 'Физ. подг. Т.2/1 — спорт. зал, борьба' },
+    { time: '13:25–14:55', subj: 'ТСП Т.1/3 — 312 ауд., территория' },
+    { time: '15:05–16:35', subj: 'Самоподготовка · 312 ауд.' }
   ]},
   { dayIdx: 4, title: 'Четверг', date: '08.10.2026', lessons: [
-    { time: '09:30–11:00', subj: 'Права: поил. Т.1/1' },
-    { time: '11:10–12:40', subj: 'Права: поил. Т.1/2' },
-    { time: '13:25–14:55', subj: 'ТСП Т.1/4' },
-    { time: '15:05–16:35', subj: 'Самоподготовка' }
+    { time: '09:30–11:00', subj: 'Права: поил. Т.1/1 — 312 ауд.' },
+    { time: '11:10–12:40', subj: 'Права: поил. Т.1/2 — 312 ауд.' },
+    { time: '13:25–14:55', subj: 'ТСП Т.1/4 — 312 ауд.' },
+    { time: '15:05–16:35', subj: 'Самоподготовка · 312 ауд.' }
   ]},
   { dayIdx: 5, title: 'Пятница', date: '09.10.2026', lessons: [
-    { time: '09:30–11:00', subj: 'Огн. подг. Т.1/2' },
-    { time: '11:10–12:40', subj: 'Права: поил. Т.2/1' },
-    { time: '13:25–14:55', subj: 'Права: поил. Т.2/2' },
-    { time: '15:05–16:35', subj: 'Самоподготовка' }
+    { time: '09:30–11:00', subj: 'Огн. подг. Т.1/2 — тир' },
+    { time: '11:10–12:40', subj: 'Права: поил. Т.2/1 — 312 ауд.' },
+    { time: '13:25–14:55', subj: 'Права: поил. Т.2/2 — 312 ауд.' },
+    { time: '15:05–16:35', subj: 'Самоподготовка · 312 ауд.' }
   ]},
   { dayIdx: 6, title: 'Суббота', date: '10.10.2026', lessons: [
-    { time: '09:30–11:00', subj: 'Мед. подг. Т.1/1' },
-    { time: '11:10–12:40', subj: 'Мед. подг. Т.2/1' },
-    { time: '13:25–14:55', subj: '<b>Физ. подг. зачёт</b> (бег, зал)' }
+    { time: '09:30–11:00', subj: 'Мед. подг. Т.1/1 — 312 ауд.' },
+    { time: '11:10–12:40', subj: 'Мед. подг. Т.2/1 — 312 ауд.' },
+    { time: '13:25–14:55', subj: '<b>Физ. подг. — зачёт</b> (бег, зал) · 312 ауд.' }
   ]},
   { dayIdx: 0, title: 'Воскресенье', date: '11.10.2026', lessons: [] }
 ];
@@ -204,7 +204,6 @@ const ROUTINE = [
   { time: '15:00', what: 'Убытие из ЦПП (суббота)' }
 ];
 
-// ============ ТЕМЫ ============
 const TOPICS = {
   legal: [],
   special: [],
@@ -236,11 +235,9 @@ const TOPICS = {
         { type: 'card', q: '7 запретов при стрельбе?', a: 'Направлять в людей; расчехлять без разрешения; заряжать без команды; оставлять/передавать; надевать защиту с оружием; стрелять при плохой видимости; трогать неразорвавшееся.' },
         { type: 'card', q: 'Когда стрельба прекращается самостоятельно?', a: '1) Появление людей/машин/животных на мишенном поле. 2) Белый флаг на КП. 3) Пожар или возгорание мишенного оборудования.' },
         { type: 'card', q: 'Какие боеприпасы запрещены?', a: 'С ржавчиной, помятостями, зелёным налётом, шатающейся пулей, выступающим капсюлем.' },
-
         { type: 'h3', text: '2. Назначение ПМ' },
         { type: 'p', text: '9-мм пистолет Макарова — <b>личное оружие нападения и защиты</b>. Поражение противника на коротких расстояниях. Эффективный огонь — до 50 м. Одиночные выстрелы. Автоматика — на принципе <b>отдачи свободного затвора</b>.' },
         { type: 'key', text: '50 м — эффективный огонь. Отдача свободного затвора — принцип работы автоматики.' },
-
         { type: 'h3', text: '3. ТТХ ПМ' },
         { type: 'term', term: 'Калибр', def: '9 мм' },
         { type: 'term', term: 'Прицельная дальность', def: '50 м' },
@@ -258,7 +255,6 @@ const TOPICS = {
         { type: 'card', q: 'Магазин и скорострельность ПМ?', a: '8 патронов / 30 выстр/мин.' },
         { type: 'card', q: 'Скорость пули и нарезы ПМ?', a: '315 м/с / 4 нареза (правое).' },
         { type: 'card', q: 'Габариты и вес ПМ?', a: 'Длина — 161 мм, ствол — 93 мм. Вес: 730 г без патронов, 810 г с патронами. Патрон — 10 г, пуля — 6,1 г.' },
-
         { type: 'h3', text: '4. Основные части и механизмы ПМ' },
         { type: 'ul', items: [
           'Рамка со стволом и спусковой скобой',
@@ -273,7 +269,6 @@ const TOPICS = {
         { type: 'card', q: 'Основные части и механизмы ПМ (7)?', a: '1) Рамка со стволом и спусковой скобой. 2) Затвор с ударником, выбрасывателем и предохранителем. 3) Возвратная пружина. 4) Затворная задержка. 5) УСМ. 6) Магазин. 7) Рукоятка с винтом.' },
         { type: 'card', q: 'Что входит в УСМ ПМ (5)?', a: 'Спусковой крючок, спусковая тяга с рычагом взвода, шептало с пружиной, курок, боевая пружина с задвижкой.' },
         { type: 'card', q: 'Принадлежность к ПМ (4)?', a: 'Кобура, протирка, запасной магазин, пистолетный ремешок.' },
-
         { type: 'h3', text: '5. Неполная разборка ПМ' },
         { type: 'key', text: 'Порядок неполной разборки (4 шага):' },
         { type: 'ul', items: [
@@ -303,7 +298,6 @@ const TOPICS = {
   tactics: []
 };
 
-// ============ ХРАНИЛИЩЕ ============
 const K = {
   theme: 'konsp_theme',
   read: 'konsp_read',
@@ -337,7 +331,7 @@ function saveCompact() { saveJSON(K.compactMode, state.compactMode); }
 function saveTheme() { saveJSON(K.theme, state.theme); }
 
 function applyTheme() { document.body.classList.toggle('light', state.theme === 'light'); }
-function toggleTheme() { state.theme = state.theme === 'light' ? 'dark' : 'light'; saveTheme(); applyTheme(); if (state.screen === 'menu' || state.screen === 'schedule') renderMenu(); }
+function toggleTheme() { state.theme = state.theme === 'light' ? 'dark' : 'light'; saveTheme(); applyTheme(); if (state.screen === 'menu') renderMenu(); else if (state.screen === 'schedule') renderSchedule(); }
 function toggleCompact() { state.compactMode = !state.compactMode; saveCompact(); renderTopic(state.topicId); }
 
 function getAllTopics() {
@@ -393,20 +387,18 @@ function renderMenu() {
   app.innerHTML = html; window.scrollTo(0, 0);
 }
 
-// ============ РАСПИСАНИЕ ============
 function renderSchedule() {
   state.screen = 'schedule';
-  const today = new Date();
-  const todayDayIdx = today.getDay();
+  const todayDayIdx = new Date().getDay();
   let html = `<div class="topbar"><button class="back-btn" onclick="renderMenu()">←</button><div class="title">Расписание</div></div>
     <h1>📅 Расписание</h1>
-    <div class="section-sub">Группа 16 · неделя 5–11 октября 2026</div>`;
+    <div class="section-sub">Группа 16 · неделя 05–11 октября 2026</div>`;
   SCHEDULE.forEach(d => {
     const isToday = d.dayIdx === todayDayIdx;
     html += `<div class="sched-day ${isToday ? 'today' : ''}">
       <div class="sched-day-header">
         <div class="sched-day-title">${d.title}</div>
-        <div class="sched-day-date">${d.date}${isToday ? ' · <span class="badge today">СЕГОДНЯ</span>' : ''}</div>
+        <div class="sched-day-date">${d.date}${isToday ? ' <span class="badge today">СЕГОДНЯ</span>' : ''}</div>
       </div>`;
     if (d.lessons.length === 0) {
       html += `<div class="sched-empty">Выходной</div>`;
