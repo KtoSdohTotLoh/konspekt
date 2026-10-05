@@ -26,6 +26,7 @@
     --term-bg: #422006; --term-border: #a16207; --term-text: #fde68a;
     --input-bg: #0f172a; --input-border: #475569; --star: #facc15;
     --wa: #25d366;
+    --today-bg: #7c2d12; --today-text: #fed7aa; --today-border: #ea580c;
   }
   body.light {
     --bg: #f1f5f9; --card-bg: #ffffff; --btn-bg: #e2e8f0; --btn-hover: #cbd5e1;
@@ -39,6 +40,7 @@
     --key-bg: #dbeafe; --key-border: #2563eb; --key-text: #1e3a8a;
     --term-bg: #fef3c7; --term-border: #a16207; --term-text: #422006;
     --input-bg: #ffffff; --input-border: #cbd5e1;
+    --today-bg: #fed7aa; --today-text: #7c2d12; --today-border: #ea580c;
   }
   body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; min-height: 100dvh; font-size: clamp(15px, 4.2vw, 17px); line-height: 1.6; padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); padding-bottom: env(safe-area-inset-bottom); transition: background .2s, color .2s; }
   .wrap { max-width: 720px; margin: 0 auto; padding: clamp(12px, 3.5vw, 18px); }
@@ -51,18 +53,10 @@
   .btn { display: block; width: 100%; padding: clamp(14px, 4vw, 16px) clamp(14px, 4vw, 18px); margin: 8px 0; background: var(--btn-bg); color: var(--text); border: none; border-radius: clamp(10px, 2.5vw, 12px); font-size: clamp(15px, 4.2vw, 17px); line-height: 1.4; text-align: left; cursor: pointer; transition: background .15s; font-family: inherit; min-height: 52px; overflow-wrap: break-word; }
   @media (hover: hover) { .btn:hover { background: var(--btn-hover); } .btn.primary:hover { background: var(--accent-hover); } }
   .btn.primary { background: var(--accent); text-align: center; font-weight: 600; color: #fff; }
-  .btn.correct { background: var(--correct) !important; color: #fff; }
-  .btn.wrong { background: var(--wrong) !important; color: #fff; }
   .btn:disabled { cursor: default; opacity: .95; }
   .btn.back { background: transparent; color: var(--text-dim); text-align: center; }
   .btn.section { text-align: center; font-weight: 600; color: #fff; font-size: clamp(16px, 4.4vw, 18px); min-height: 76px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; padding: 14px; background: linear-gradient(135deg, var(--accent) 0%, #1e40af 100%); }
   .btn.section .sub { font-size: clamp(11px, 3.2vw, 12.5px); opacity: 0.85; font-weight: 400; }
-  .btn.section.legal { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); }
-  .btn.section.special { background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); }
-  .btn.section.fire { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
-  .btn.section.tsp { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
-  .btn.section.med { background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%); }
-  .btn.section.tactics { background: linear-gradient(135deg, #ca8a04 0%, #854d0e 100%); }
   .quick-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: clamp(10px, 3vw, 14px); }
   .quick-row .btn { margin: 0; text-align: center; min-height: 56px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: clamp(13px, 3.6vw, 14.5px); padding: 10px; }
   .quick-row .icon { font-size: 18px; }
@@ -70,7 +64,7 @@
   .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; background: var(--badge-bg); font-size: clamp(11.5px, 3.2vw, 12.5px); color: var(--badge-text); margin: 2px 4px 2px 0; }
   .badge.warn { background: var(--warn-bg); color: var(--warn-text); }
   .badge.ok { background: var(--ok-bg); color: var(--ok-text); }
-  .badge.key { background: var(--key-bg); color: var(--key-text); }
+  .badge.today { background: var(--today-bg); color: var(--today-text); font-weight: 700; }
   .center { text-align: center; }
   .big { font-size: clamp(36px, 11vw, 46px); font-weight: 700; margin: 8px 0; line-height: 1.1; }
   .topbar { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
@@ -82,7 +76,6 @@
   .search-input { width: 100%; padding: 14px 16px; font-size: 16px; background: var(--input-bg); border: 1.5px solid var(--input-border); color: var(--text); border-radius: 10px; font-family: inherit; margin-bottom: 12px; -webkit-appearance: none; }
   .search-input:focus { outline: none; border-color: var(--accent); }
   .item-card { background: var(--card-bg); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; cursor: pointer; transition: background .15s; border: 1px solid transparent; }
-  @media (hover: hover) { .item-card:hover { border-color: var(--border-muted); } }
   .item-card:active { background: var(--btn-bg); }
   .item-card .block-tag { font-size: 11px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
   .item-card .item-q { font-size: clamp(14px, 4vw, 15.5px); line-height: 1.45; color: var(--text); }
@@ -94,21 +87,12 @@
   .contact-card { background: var(--card-bg); border-radius: clamp(12px, 3vw, 16px); padding: clamp(16px, 4vw, 20px); margin-bottom: clamp(10px, 3vw, 14px); text-align: center; }
   .contact-title { font-size: clamp(14px, 4vw, 16px); font-weight: 600; color: var(--text-bright); margin-bottom: 6px; }
   .contact-text { font-size: clamp(12.5px, 3.5vw, 14px); color: var(--text-dim); margin-bottom: 14px; }
-  .contact-link { display: flex; gap: 12px; align-items: center; text-decoration: none; color: var(--text); background: var(--btn-bg); border-radius: 12px; padding: 12px 14px; transition: background .15s; }
+  .contact-link { display: flex; gap: 12px; align-items: center; text-decoration: none; color: var(--text); background: var(--btn-bg); border-radius: 12px; padding: 12px 14px; }
   .contact-link .wa-icon { font-size: 28px; flex-shrink: 0; }
   .contact-link > div { text-align: left; flex: 1; }
   .contact-name { font-weight: 600; font-size: clamp(14px, 4vw, 15.5px); color: var(--text-bright); margin-bottom: 2px; }
   .contact-sub { font-size: clamp(11.5px, 3.2vw, 12.5px); color: var(--text-dim); margin-bottom: 4px; }
   .contact-phone { font-size: clamp(13px, 3.6vw, 14.5px); color: var(--wa); font-weight: 600; }
-  .toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; }
-  .toggle-label { font-size: clamp(13.5px, 3.8vw, 15px); color: var(--text); }
-  .toggle-sub { font-size: clamp(11.5px, 3.2vw, 12.5px); color: var(--text-dim); margin-top: 2px; }
-  .switch { position: relative; display: inline-block; width: 48px; height: 28px; flex-shrink: 0; }
-  .switch input { opacity: 0; width: 0; height: 0; }
-  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--btn-bg); border-radius: 28px; transition: .2s; }
-  .slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .2s; }
-  .switch input:checked + .slider { background: var(--accent); }
-  .switch input:checked + .slider:before { transform: translateX(20px); }
   .learned-bar { height: 8px; background: var(--progress-bg); border-radius: 4px; overflow: hidden; margin-top: 8px; }
   .learned-bar > div { height: 100%; background: var(--correct); transition: width .3s; }
   .topic-content { font-size: clamp(14.5px, 4vw, 16px); line-height: 1.65; color: var(--text-mid); }
@@ -128,16 +112,30 @@
   .checklist-box { width: 22px; height: 22px; border: 2px solid var(--border-muted); border-radius: 6px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 14px; color: transparent; transition: all .15s; margin-top: 2px; }
   .checklist-item.done .checklist-box { background: var(--correct); border-color: var(--correct); color: #fff; }
   .checklist-item.done .checklist-text { color: var(--text-dim); text-decoration: line-through; }
-  .flashcard { background: var(--card-bg); border-radius: 14px; padding: 24px 20px; margin-bottom: 14px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; transition: transform .15s; }
-  .flashcard:active { transform: scale(0.99); }
+  .flashcard { background: var(--card-bg); border-radius: 14px; padding: 24px 20px; margin-bottom: 14px; text-align: center; min-height: 200px; display: flex; flex-direction: column; justify-content: center; cursor: pointer; }
   .flashcard .fc-question { font-size: clamp(15px, 4.2vw, 17px); color: var(--text-bright); font-weight: 500; line-height: 1.5; }
   .flashcard .fc-hint { font-size: clamp(11.5px, 3.2vw, 13px); color: var(--text-dim); margin-top: 14px; }
   .flashcard .fc-answer { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border-muted); color: var(--accent); font-size: clamp(14px, 4vw, 16px); line-height: 1.55; text-align: left; }
   .notes-area { width: 100%; min-height: 120px; background: var(--input-bg); border: 1.5px solid var(--input-border); color: var(--text); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: clamp(14px, 3.8vw, 15.5px); line-height: 1.55; resize: vertical; -webkit-appearance: none; }
   .notes-area:focus { outline: none; border-color: var(--accent); }
   .link-chip { display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; margin: 4px 6px 4px 0; background: var(--btn-bg); border-radius: 10px; color: var(--text); text-decoration: none; font-size: clamp(12.5px, 3.6vw, 14px); cursor: pointer; border: none; font-family: inherit; }
-  .link-chip:active { background: var(--btn-hover); }
   .compact-note { background: var(--explain-bg); border-left: 4px solid var(--accent); padding: 10px 14px; border-radius: 8px; font-size: clamp(12.5px, 3.5vw, 14px); color: var(--text-dim); margin-bottom: 12px; }
+  /* Расписание */
+  .sched-day { background: var(--card-bg); border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; border-left: 4px solid var(--border-muted); }
+  .sched-day.today { border-left-color: var(--today-border); background: linear-gradient(135deg, var(--card-bg) 0%, var(--today-bg) 200%); }
+  .sched-day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .sched-day-title { font-size: clamp(15px, 4.2vw, 16.5px); font-weight: 700; color: var(--text-bright); }
+  .sched-day-date { font-size: clamp(11.5px, 3.2vw, 13px); color: var(--text-dim); }
+  .sched-lesson { display: flex; gap: 10px; padding: 6px 0; font-size: clamp(13.5px, 3.8vw, 15px); line-height: 1.45; border-bottom: 1px dashed var(--border-muted); }
+  .sched-lesson:last-child { border-bottom: none; }
+  .sched-time { min-width: 96px; color: var(--text-dim); font-size: clamp(12px, 3.4vw, 13.5px); font-variant-numeric: tabular-nums; }
+  .sched-subj { flex: 1; color: var(--text); }
+  .sched-subj b { color: var(--text-bright); }
+  .sched-empty { padding: 6px 0; color: var(--text-dim); font-size: clamp(13px, 3.6vw, 14px); font-style: italic; }
+  .routine-row { display: flex; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--border-muted); font-size: clamp(13.5px, 3.8vw, 15px); }
+  .routine-row:last-child { border-bottom: none; }
+  .routine-time { min-width: 130px; color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .routine-what { flex: 1; color: var(--text); }
 </style>
 </head>
 <body>
@@ -154,69 +152,152 @@ const SUBJECTS = [
   { id: 'tactics', title: 'Тактика', icon: '📓', cls: 'tactics' }
 ];
 
-// ============ ТЕМЫ (пока тестовая одна) ============
+// ============ РАСПИСАНИЕ ============
+// dayIdx: 0=Вс, 1=Пн, 2=Вт, 3=Ср, 4=Чт, 5=Пт, 6=Сб
+const SCHEDULE = [
+  { dayIdx: 1, title: 'Понедельник', date: '05.10.2026', lessons: [
+    { time: '09:00–16:40', subj: '<b>Входной экзамен</b> (физо, права, спец, огневая)' }
+  ]},
+  { dayIdx: 2, title: 'Вторник', date: '06.10.2026', lessons: [
+    { time: '09:30–11:00', subj: 'Физ. подг. Т.1/1' },
+    { time: '11:10–12:40', subj: 'ТСП Т.1/1' },
+    { time: '13:25–14:55', subj: '<b>Огн. подг. Т.1/1</b>' },
+    { time: '15:05–16:35', subj: 'Самоподготовка' }
+  ]},
+  { dayIdx: 3, title: 'Среда', date: '07.10.2026', lessons: [
+    { time: '09:30–11:00', subj: 'ТСП Т.1/2' },
+    { time: '11:10–12:40', subj: 'Физ. подг. Т.2/1' },
+    { time: '13:25–14:55', subj: 'ТСП Т.1/3' },
+    { time: '15:05–16:35', subj: 'Самоподготовка' }
+  ]},
+  { dayIdx: 4, title: 'Четверг', date: '08.10.2026', lessons: [
+    { time: '09:30–11:00', subj: 'Права: поил. Т.1/1' },
+    { time: '11:10–12:40', subj: 'Права: поил. Т.1/2' },
+    { time: '13:25–14:55', subj: 'ТСП Т.1/4' },
+    { time: '15:05–16:35', subj: 'Самоподготовка' }
+  ]},
+  { dayIdx: 5, title: 'Пятница', date: '09.10.2026', lessons: [
+    { time: '09:30–11:00', subj: 'Огн. подг. Т.1/2' },
+    { time: '11:10–12:40', subj: 'Права: поил. Т.2/1' },
+    { time: '13:25–14:55', subj: 'Права: поил. Т.2/2' },
+    { time: '15:05–16:35', subj: 'Самоподготовка' }
+  ]},
+  { dayIdx: 6, title: 'Суббота', date: '10.10.2026', lessons: [
+    { time: '09:30–11:00', subj: 'Мед. подг. Т.1/1' },
+    { time: '11:10–12:40', subj: 'Мед. подг. Т.2/1' },
+    { time: '13:25–14:55', subj: '<b>Физ. подг. зачёт</b> (бег, зал)' }
+  ]},
+  { dayIdx: 0, title: 'Воскресенье', date: '11.10.2026', lessons: [] }
+];
+
+const ROUTINE = [
+  { time: '09:00', what: 'Прибытие в ЦПП' },
+  { time: '09:00–09:15', what: 'Построение и утренний осмотр' },
+  { time: '09:15–09:30', what: 'Строевая тренировка, развод на занятия' },
+  { time: '09:30–11:00', what: '1–2 час занятий' },
+  { time: '11:10–12:40', what: '3–4 час занятий' },
+  { time: '12:40–13:25', what: 'Обед' },
+  { time: '13:25–14:55', what: '5–6 час занятий' },
+  { time: '15:05–16:35', what: 'Самоподготовка' },
+  { time: '16:35–16:40', what: 'Подведение итогов' },
+  { time: '16:40', what: 'Убытие из ЦПП (пн–пт)' },
+  { time: '15:00', what: 'Убытие из ЦПП (суббота)' }
+];
+
+// ============ ТЕМЫ ============
 const TOPICS = {
-  legal: [
+  legal: [],
+  special: [],
+  fire: [
     {
-      id: 'zaderzhanie',
-      title: 'Задержание (ст. 10 ФЗ № 226-ФЗ)',
-      subtitle: 'Основания, порядок, сроки, гарантии',
+      id: 'pm_basics',
+      title: 'ПМ: ТТХ, части, разборка, безопасность',
+      subtitle: 'Для занятия Т.1/1 (вторник, 3-я пара)',
       blocks: [
-        { type: 'h3', text: 'Понятие задержания' },
-        { type: 'p', text: 'Задержание — это кратковременное ограничение свободы передвижения лица, применяемое военнослужащими (сотрудниками) войск национальной гвардии в целях пресечения преступления или административного правонарушения, установления личности, доставления в органы внутренних дел.' },
-        { type: 'key', text: 'Задержание применяется до передачи в полицию и не является мерой наказания. Это мера процессуального принуждения.' },
-        { type: 'term', term: 'Задержание', def: 'Кратковременное ограничение свободы передвижения лица, применяемое ВНГ для пресечения правонарушения и передачи в ОВД.' },
-        { type: 'h3', text: 'Кого вправе задерживать ВНГ' },
-        { type: 'p', text: 'Согласно части 1 статьи 10 ФЗ № 226-ФЗ, военнослужащие (сотрудники) ВНГ вправе задерживать до передачи в полицию следующих лиц:' },
+        { type: 'h3', text: '1. Требования безопасности при стрельбе' },
+        { type: 'p', text: 'Личный состав, не усвоивший требования безопасности, к стрельбе не допускается.' },
+        { type: 'key', text: 'ЗАПРЕЩАЕТСЯ при проведении стрельб:' },
         { type: 'ul', items: [
-          'лиц, подозреваемых в совершении преступления, а также лиц, в отношении которых избрана мера пресечения в виде заключения под стражу;',
-          'лиц, совершивших побег из-под стражи, а также лиц, уклоняющихся от отбывания уголовного наказания;',
-          'лиц, уклоняющихся от исполнения административного наказания в виде административного ареста;',
-          'лиц, находящихся в розыске;',
-          'лиц, в отношении которых ведётся производство по делам об административных правонарушениях, отнесённых к подведомственности ВНГ;',
-          'лиц, допустивших нарушение правил комендантского часа;',
-          'лиц, незаконно проникших либо пытавшихся проникнуть на территории охраняемых ВНГ объектов.'
+          'Направлять оружие в сторону людей или в направлении их возможного появления — независимо от того, заряжено оно или нет.',
+          'Расчехлять оружие или извлекать его из кобуры без разрешения руководителя стрельбы.',
+          'Заряжать оружие боевыми или холостыми патронами без команды руководителя.',
+          'Оставлять оружие, боеприпасы или гранаты на огневом рубеже, передавать их другим без разрешения.',
+          'Надевать, поправлять и снимать защитные средства с оружием и патронами в руках.',
+          'Проводить стрельбы в условиях ограниченной видимости, если не наблюдаются знаки основного и опасных направлений.',
+          'Трогать неразорвавшиеся снаряды, мины и взрывоопасные предметы.'
         ]},
-        { type: 'h3', text: 'Сроки задержания' },
-        { type: 'key', text: 'Задержанное лицо подлежит доставлению в ближайший ОВД в кратчайший срок, но не позднее 3 часов с момента задержания.' },
-        { type: 'p', text: 'Срок задержания исчисляется с момента фактического ограничения свободы передвижения задержанного лица.' },
-        { type: 'term', term: 'Срок задержания', def: 'Не более 3 часов с момента фактического ограничения свободы передвижения.' },
-        { type: 'h3', text: 'Порядок действий при задержании' },
+        { type: 'key', text: 'Запрещены боеприпасы с ржавчиной, помятостями, зелёным налётом на гильзе, шатающейся пулей, выступающим капсюлем.' },
+        { type: 'h3', text: 'Стрельба прекращается самостоятельно или по команде РС при:' },
         { type: 'ul', items: [
-          'разъяснить задержанному лицу основания задержания;',
-          'доставить в ближайший ОВД в кратчайший срок;',
-          'подвергнуть досмотру задержанное лицо, вещи и документы при нём, а также транспортные средства;',
-          'при необходимости принять меры по оказанию задержанному первой помощи и медицинской помощи в возможно короткий срок.'
+          'появлении людей, машин, животных на мишенном поле или низколетящих аппаратов над районом стрельб;',
+          'поднятии белого флага (фонаря) на КП;',
+          'возникновении пожара от стрельбы или возгорании мишенного оборудования.'
         ]},
-        { type: 'h3', text: 'Уведомления' },
-        { type: 'p', text: 'О каждом случае задержания уведомляются:' },
+        { type: 'card', q: '7 запретов при стрельбе?', a: 'Направлять в людей; расчехлять без разрешения; заряжать без команды; оставлять/передавать; надевать защиту с оружием; стрелять при плохой видимости; трогать неразорвавшееся.' },
+        { type: 'card', q: 'Когда стрельба прекращается самостоятельно?', a: '1) Появление людей/машин/животных на мишенном поле. 2) Белый флаг на КП. 3) Пожар или возгорание мишенного оборудования.' },
+        { type: 'card', q: 'Какие боеприпасы запрещены?', a: 'С ржавчиной, помятостями, зелёным налётом, шатающейся пулей, выступающим капсюлем.' },
+
+        { type: 'h3', text: '2. Назначение ПМ' },
+        { type: 'p', text: '9-мм пистолет Макарова — <b>личное оружие нападения и защиты</b>. Поражение противника на коротких расстояниях. Эффективный огонь — до 50 м. Одиночные выстрелы. Автоматика — на принципе <b>отдачи свободного затвора</b>.' },
+        { type: 'key', text: '50 м — эффективный огонь. Отдача свободного затвора — принцип работы автоматики.' },
+
+        { type: 'h3', text: '3. ТТХ ПМ' },
+        { type: 'term', term: 'Калибр', def: '9 мм' },
+        { type: 'term', term: 'Прицельная дальность', def: '50 м' },
+        { type: 'term', term: 'Убойная сила пули', def: '350 м' },
+        { type: 'term', term: 'Ёмкость магазина', def: '8 патронов' },
+        { type: 'term', term: 'Боевая скорострельность', def: '30 выстр/мин' },
+        { type: 'term', term: 'Начальная скорость пули', def: '315 м/с' },
+        { type: 'term', term: 'Число нарезов', def: '4 (правое)' },
+        { type: 'term', term: 'Длина пистолета', def: '161 мм' },
+        { type: 'term', term: 'Длина ствола', def: '93 мм' },
+        { type: 'term', term: 'Вес без патронов', def: '730 г' },
+        { type: 'term', term: 'Вес с патронами', def: '810 г' },
+        { type: 'term', term: 'Вес патрона / пули', def: '10 г / 6,1 г' },
+        { type: 'card', q: 'Калибр, дальность, убойная сила ПМ?', a: '9 мм / 50 м / 350 м.' },
+        { type: 'card', q: 'Магазин и скорострельность ПМ?', a: '8 патронов / 30 выстр/мин.' },
+        { type: 'card', q: 'Скорость пули и нарезы ПМ?', a: '315 м/с / 4 нареза (правое).' },
+        { type: 'card', q: 'Габариты и вес ПМ?', a: 'Длина — 161 мм, ствол — 93 мм. Вес: 730 г без патронов, 810 г с патронами. Патрон — 10 г, пуля — 6,1 г.' },
+
+        { type: 'h3', text: '4. Основные части и механизмы ПМ' },
         { type: 'ul', items: [
-          'несовершеннолетнего — родители или законные представители (незамедлительно);',
-          'иностранного гражданина — дипломатическое представительство или консульское учреждение (незамедлительно);',
-          'военнослужащего — командование воинской части (незамедлительно).'
+          'Рамка со стволом и спусковой скобой',
+          'Затвор с ударником, выбрасывателем и предохранителем',
+          'Возвратная пружина',
+          'Затворная задержка',
+          'Ударно-спусковой механизм (спусковой крючок, спусковая тяга с рычагом взвода, шептало с пружиной, курок, боевая пружина с задвижкой)',
+          'Магазин',
+          'Рукоятка с винтом'
         ]},
-        { type: 'h3', text: 'Что важно запомнить' },
-        { type: 'key', text: 'Срок задержания — 3 часа. Не более. Точка отсчёта — момент фактического ограничения свободы, а не момент доставления в отдел.' },
-        { type: 'card', q: 'На какой срок можно задержать лицо?', a: 'Не более 3 часов с момента фактического ограничения свободы передвижения. Лицо доставляется в ближайший ОВД в кратчайший срок.' },
-        { type: 'card', q: 'Кого вправе задерживать ВНГ?', a: 'Подозреваемых в преступлении, лиц в розыске, совершивших побег из-под стражи, уклоняющихся от административного ареста, нарушителей комендантского часа, незаконно проникших на охраняемые ВНГ объекты, а также лиц, в отношении которых ведётся производство по делам об АП, отнесённых к подведомственности ВНГ.' },
-        { type: 'card', q: 'Кого уведомляют о задержании несовершеннолетнего?', a: 'Родителей или законных представителей — незамедлительно.' },
-        { type: 'card', q: 'Когда начинается отсчёт срока задержания?', a: 'С момента фактического ограничения свободы передвижения задержанного лица.' }
+        { type: 'key', text: 'Принадлежность: кобура, протирка, запасной магазин, пистолетный ремешок.' },
+        { type: 'card', q: 'Основные части и механизмы ПМ (7)?', a: '1) Рамка со стволом и спусковой скобой. 2) Затвор с ударником, выбрасывателем и предохранителем. 3) Возвратная пружина. 4) Затворная задержка. 5) УСМ. 6) Магазин. 7) Рукоятка с винтом.' },
+        { type: 'card', q: 'Что входит в УСМ ПМ (5)?', a: 'Спусковой крючок, спусковая тяга с рычагом взвода, шептало с пружиной, курок, боевая пружина с задвижкой.' },
+        { type: 'card', q: 'Принадлежность к ПМ (4)?', a: 'Кобура, протирка, запасной магазин, пистолетный ремешок.' },
+
+        { type: 'h3', text: '5. Неполная разборка ПМ' },
+        { type: 'key', text: 'Порядок неполной разборки (4 шага):' },
+        { type: 'ul', items: [
+          'Извлечь магазин из основания рукоятки.',
+          'Проверить, нет ли патрона в патроннике (поставить затвор на затворную задержку).',
+          'Отделить затвор от рамки.',
+          'Снять со ствола возвратную пружину.'
+        ]},
+        { type: 'p', text: 'Сборка — в обратной последовательности.' },
+        { type: 'card', q: 'Порядок неполной разборки ПМ?', a: '1) Извлечь магазин. 2) Проверить патронник (затвор на затворную задержку). 3) Отделить затвор от рамки. 4) Снять возвратную пружину со ствола.' }
       ],
-      links: [
-        { to: 'dostavlenie', title: 'Доставление (ст. 27.2 КоАП)' },
-        { to: 'lichny_dosmotr', title: 'Личный досмотр (ст. 27.7 КоАП)' }
-      ],
+      links: [],
       checklist: [
-        'Понятие задержания — определение',
-        'Кого вправе задерживать ВНГ — 7 категорий',
-        'Срок задержания — 3 часа с момента ограничения свободы',
-        'Порядок действий при задержании',
-        'Уведомления: родители, консульство, командование'
+        '7 запретов при стрельбе',
+        '3 случая прекращения стрельбы',
+        'Запрещённые боеприпасы',
+        'ТТХ ПМ — все 12 характеристик',
+        'Части и механизмы ПМ (7)',
+        'УСМ ПМ (5)',
+        'Принадлежность ПМ (4)',
+        'Порядок неполной разборки (4 шага)'
       ]
     }
   ],
-  special: [],
-  fire: [],
   tsp: [],
   med: [],
   tactics: []
@@ -225,25 +306,20 @@ const TOPICS = {
 // ============ ХРАНИЛИЩЕ ============
 const K = {
   theme: 'konsp_theme',
-  read: 'konsp_read',           // { topicId: true }
-  fav: 'konsp_fav',             // [topicId, ...]
-  notes: 'konsp_notes',         // { topicId: "текст" }
-  checklist: 'konsp_checklist', // { "topicId:idx": true }
-  questions: 'konsp_questions', // { topicId: [{text, date}] }
+  read: 'konsp_read',
+  fav: 'konsp_fav',
+  notes: 'konsp_notes',
+  checklist: 'konsp_checklist',
+  questions: 'konsp_questions',
   compactMode: 'konsp_compact'
 };
-
 function loadJSON(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e) { return d; } }
 function saveJSON(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch(e) { return false; } }
 function storageAvailable() { try { localStorage.setItem('__t__','1'); localStorage.removeItem('__t__'); return true; } catch(e) { return false; } }
 
 let state = {
-  screen: 'menu',
-  subject: null,
-  topicId: null,
-  flashcards: [],    // для режима карточек
-  fcIndex: 0,
-  fcShown: false,
+  screen: 'menu', subject: null, topicId: null,
+  flashcards: [], fcIndex: 0, fcShown: false,
   theme: loadJSON(K.theme, 'dark'),
   read: loadJSON(K.read, {}),
   fav: loadJSON(K.fav, []),
@@ -252,7 +328,6 @@ let state = {
   questions: loadJSON(K.questions, {}),
   compactMode: loadJSON(K.compactMode, false)
 };
-
 function saveRead() { saveJSON(K.read, state.read); }
 function saveFav() { saveJSON(K.fav, state.fav); }
 function saveNotes() { saveJSON(K.notes, state.notes); }
@@ -262,34 +337,34 @@ function saveCompact() { saveJSON(K.compactMode, state.compactMode); }
 function saveTheme() { saveJSON(K.theme, state.theme); }
 
 function applyTheme() { document.body.classList.toggle('light', state.theme === 'light'); }
-function toggleTheme() { state.theme = state.theme === 'light' ? 'dark' : 'light'; saveTheme(); applyTheme(); if (state.screen === 'menu') renderMenu(); }
+function toggleTheme() { state.theme = state.theme === 'light' ? 'dark' : 'light'; saveTheme(); applyTheme(); if (state.screen === 'menu' || state.screen === 'schedule') renderMenu(); }
 function toggleCompact() { state.compactMode = !state.compactMode; saveCompact(); renderTopic(state.topicId); }
 
-// ============ ДОСТУП К ДАННЫМ ============
 function getAllTopics() {
   const arr = [];
-  SUBJECTS.forEach(s => {
-    (TOPICS[s.id] || []).forEach(t => arr.push({ ...t, subject: s.id, subjectTitle: s.title }));
-  });
+  SUBJECTS.forEach(s => { (TOPICS[s.id] || []).forEach(t => arr.push({ ...t, subject: s.id, subjectTitle: s.title })); });
   return arr;
 }
 function findTopic(id) { return getAllTopics().find(t => t.id === id); }
 function countTopicsBySubject(sid) { return (TOPICS[sid] || []).length; }
 function countReadBySubject(sid) { return (TOPICS[sid] || []).filter(t => state.read[t.id]).length; }
 
-// ============ РЕНДЕР: МЕНЮ ============
 const app = document.getElementById('app');
+
 function renderMenu() {
   state.screen = 'menu';
   const themeIcon = state.theme === 'light' ? '🌙' : '☀️';
   let html = `<div class="menu-header"><h1>Гвардейский конспект</h1><button class="theme-btn" onclick="toggleTheme()">${themeIcon}</button></div>`;
   if (!storageAvailable()) html += `<div class="warn-box">⚠️ Браузер не сохраняет прогресс.</div>`;
-
   html += `<div class="quick-row">
-    <button class="btn" onclick="renderSearch()"><span class="icon">🔍</span>Поиск по конспектам</button>
+    <button class="btn" onclick="renderSearch()"><span class="icon">🔍</span>Поиск</button>
     <button class="btn" onclick="renderRandom()"><span class="icon">🎲</span>Случайная тема</button>
   </div>`;
-
+  html += `<div class="card">
+    <div class="block-title"><h2>📅 Расписание и распорядок</h2><span class="counter">Группа 16</span></div>
+    <div class="meta">Занятия, время пар, самоподготовка</div>
+    <button class="btn section" onclick="renderSchedule()" style="margin-top:10px;background:linear-gradient(135deg, #ea580c 0%, #c2410c 100%)">Открыть расписание</button>
+  </div>`;
   SUBJECTS.forEach(s => {
     const total = countTopicsBySubject(s.id);
     const read = countReadBySubject(s.id);
@@ -303,7 +378,6 @@ function renderMenu() {
            <button class="btn section ${s.cls}" onclick="renderSubject('${s.id}')" style="margin-top:10px">Открыть</button>`}
     </div>`;
   });
-
   html += `<div class="contact-card">
     <div class="contact-title">Нашли ошибку? Есть конспект?</div>
     <div class="contact-text">Пишите — добавим в общий доступ, будем готовиться вместе.</div>
@@ -319,10 +393,41 @@ function renderMenu() {
   app.innerHTML = html; window.scrollTo(0, 0);
 }
 
-// ============ РЕНДЕР: ПРЕДМЕТ ============
+// ============ РАСПИСАНИЕ ============
+function renderSchedule() {
+  state.screen = 'schedule';
+  const today = new Date();
+  const todayDayIdx = today.getDay();
+  let html = `<div class="topbar"><button class="back-btn" onclick="renderMenu()">←</button><div class="title">Расписание</div></div>
+    <h1>📅 Расписание</h1>
+    <div class="section-sub">Группа 16 · неделя 5–11 октября 2026</div>`;
+  SCHEDULE.forEach(d => {
+    const isToday = d.dayIdx === todayDayIdx;
+    html += `<div class="sched-day ${isToday ? 'today' : ''}">
+      <div class="sched-day-header">
+        <div class="sched-day-title">${d.title}</div>
+        <div class="sched-day-date">${d.date}${isToday ? ' · <span class="badge today">СЕГОДНЯ</span>' : ''}</div>
+      </div>`;
+    if (d.lessons.length === 0) {
+      html += `<div class="sched-empty">Выходной</div>`;
+    } else {
+      d.lessons.forEach(l => {
+        html += `<div class="sched-lesson"><div class="sched-time">${l.time}</div><div class="sched-subj">${l.subj}</div></div>`;
+      });
+    }
+    html += `</div>`;
+  });
+  html += `<div class="card">
+    <div class="block-title"><h2>⏰ Внутренний распорядок дня</h2></div>
+    <div class="section-sub">Для слушателей с правом ежедневного увольнения</div>
+    ${ROUTINE.map(r => `<div class="routine-row"><div class="routine-time">${r.time}</div><div class="routine-what">${r.what}</div></div>`).join('')}
+  </div>`;
+  html += `<div class="card"><button class="btn back" onclick="renderMenu()">← Главное меню</button></div>`;
+  app.innerHTML = html; window.scrollTo(0, 0);
+}
+
 function renderSubject(sid) {
-  state.screen = 'subject';
-  state.subject = sid;
+  state.screen = 'subject'; state.subject = sid;
   const s = SUBJECTS.find(x => x.id === sid);
   const topics = TOPICS[sid] || [];
   let html = `<div class="topbar"><button class="back-btn" onclick="renderMenu()">←</button><div class="title">${s.title}</div></div>
@@ -344,19 +449,14 @@ function renderSubject(sid) {
   app.innerHTML = html; window.scrollTo(0, 0);
 }
 
-// ============ РЕНДЕР: ТЕМА ============
 function renderTopic(id) {
   const t = findTopic(id);
   if (!t) { renderMenu(); return; }
-  state.screen = 'topic';
-  state.topicId = id;
-  state.read[id] = true;
-  saveRead();
-
+  state.screen = 'topic'; state.topicId = id;
+  state.read[id] = true; saveRead();
   const isFav = state.fav.includes(id);
   const note = state.notes[id] || '';
   const questions = state.questions[id] || [];
-
   let html = `<div class="topbar">
     <button class="back-btn" onclick="renderSubject('${t.subject}')">←</button>
     <div class="title">${t.title}</div>
@@ -364,29 +464,21 @@ function renderTopic(id) {
   </div>
   <h1>${t.title}</h1>
   <div class="section-sub">${t.subtitle || ''}</div>
-
   <div class="topic-actions">
     <button class="btn" onclick="toggleCompact()">${state.compactMode ? '📖 Полный текст' : '🎯 Только главное'}</button>
     <button class="btn" onclick="speakTopic('${id}')">🔊 Слушать</button>
     <button class="btn" onclick="startFlashcards('${id}')">🎴 Карточки (${countCards(t)})</button>
     <button class="btn" onclick="scrollToNotes()">📝 Мои заметки</button>
   </div>`;
-
   if (state.compactMode) html += `<div class="compact-note">🎯 Режим «Только главное» — показаны заголовки и ключевые тезисы.</div>`;
-
   html += `<div class="card"><div class="topic-content">${renderBlocks(t.blocks)}</div></div>`;
-
   if (t.links && t.links.length > 0) {
-    html += `<div class="card">
-      <div class="meta">🔗 Связанные темы</div>
-      <div>${t.links.map(l => {
-        const linked = findTopic(l.to);
-        const disabled = !linked;
-        return `<button class="link-chip" ${disabled ? 'disabled style="opacity:.5"' : `onclick="renderTopic('${l.to}')"`}>${disabled ? '🚧' : '→'} ${l.title}</button>`;
-      }).join('')}</div>
-    </div>`;
+    html += `<div class="card"><div class="meta">🔗 Связанные темы</div><div>${t.links.map(l => {
+      const linked = findTopic(l.to);
+      const disabled = !linked;
+      return `<button class="link-chip" ${disabled ? 'disabled style="opacity:.5"' : `onclick="renderTopic('${l.to}')"`}>${disabled ? '🚧' : '→'} ${l.title}</button>`;
+    }).join('')}</div></div>`;
   }
-
   if (t.checklist && t.checklist.length > 0) {
     html += `<div class="card">
       <div class="block-title"><h2>☑️ Что надо знать</h2></div>
@@ -401,14 +493,12 @@ function renderTopic(id) {
       }).join('')}
     </div>`;
   }
-
   html += `<div class="card" id="notesBlock">
     <div class="block-title"><h2>📝 Мои заметки</h2></div>
-    <div class="section-sub">Пиши, что понял, что запомнить. Сохраняется на устройстве.</div>
+    <div class="section-sub">Пиши, что понял, что запомнить.</div>
     <textarea class="notes-area" id="notesField" placeholder="Мои мысли по теме...">${escapeHtml(note)}</textarea>
     <button class="btn primary" onclick="saveNote('${id}')" style="margin-top:8px">💾 Сохранить заметку</button>
   </div>`;
-
   html += `<div class="card">
     <div class="block-title"><h2>❓ Вопросы по теме</h2></div>
     <div class="section-sub">Не понял что-то? Оставь вопрос — на него ответят.</div>
@@ -416,15 +506,12 @@ function renderTopic(id) {
     <input type="text" class="search-input" id="questionField" placeholder="Напиши свой вопрос...">
     <button class="btn" onclick="addQuestion('${id}')">📨 Отправить вопрос</button>
   </div>`;
-
   html += `<div class="card"><button class="btn back" onclick="renderSubject('${t.subject}')">← К списку тем</button><button class="btn back" onclick="renderMenu()">← Главное меню</button></div>`;
-
   app.innerHTML = html; window.scrollTo(0, 0);
 }
 
 function countCards(t) { return (t.blocks || []).filter(b => b.type === 'card').length; }
 function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
 function renderBlocks(blocks) {
   let html = '';
   (blocks || []).forEach(b => {
@@ -434,29 +521,12 @@ function renderBlocks(blocks) {
     else if (b.type === 'key') html += `<div class="key-block">🔑 ${b.text}</div>`;
     else if (b.type === 'term') html += `<div class="term-block"><b>${b.term}</b><br>${b.def}</div>`;
     else if (b.type === 'ul') html += `<ul>${b.items.map(i => `<li>${i}</li>`).join('')}</ul>`;
-    else if (b.type === 'card') { /* карточки не рендерятся в тексте */ }
   });
   return html;
 }
-
-function toggleFav(id) {
-  const i = state.fav.indexOf(id);
-  if (i >= 0) state.fav.splice(i, 1); else state.fav.push(id);
-  saveFav();
-  renderTopic(id);
-}
-function toggleChecklist(tid, idx) {
-  const key = tid + ':' + idx;
-  if (state.checklist[key]) delete state.checklist[key]; else state.checklist[key] = true;
-  saveChecklist();
-  renderTopic(tid);
-}
-function saveNote(id) {
-  const v = document.getElementById('notesField').value;
-  state.notes[id] = v;
-  saveNotes();
-  alert('Заметка сохранена ✅');
-}
+function toggleFav(id) { const i = state.fav.indexOf(id); if (i >= 0) state.fav.splice(i, 1); else state.fav.push(id); saveFav(); renderTopic(id); }
+function toggleChecklist(tid, idx) { const key = tid + ':' + idx; if (state.checklist[key]) delete state.checklist[key]; else state.checklist[key] = true; saveChecklist(); renderTopic(tid); }
+function saveNote(id) { const v = document.getElementById('notesField').value; state.notes[id] = v; saveNotes(); alert('Заметка сохранена ✅'); }
 function scrollToNotes() { const el = document.getElementById('notesBlock'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }
 function addQuestion(id) {
   const f = document.getElementById('questionField');
@@ -464,31 +534,22 @@ function addQuestion(id) {
   if (!text) return;
   if (!state.questions[id]) state.questions[id] = [];
   state.questions[id].push({ text, date: new Date().toLocaleString('ru-RU') });
-  saveQuestions();
-  renderTopic(id);
+  saveQuestions(); renderTopic(id);
 }
 
-// ============ РЕЖИМ ФЛЕШ-КАРТОЧЕК ============
 function startFlashcards(id) {
-  const t = findTopic(id);
-  if (!t) return;
+  const t = findTopic(id); if (!t) return;
   const cards = (t.blocks || []).filter(b => b.type === 'card').map(b => ({ q: b.q, a: b.a }));
   if (cards.length === 0) { alert('В этой теме нет карточек'); return; }
-  state.flashcards = shuffle(cards);
-  state.fcIndex = 0;
-  state.fcShown = false;
-  state.topicId = id;
-  state.screen = 'flashcards';
+  state.flashcards = shuffle(cards); state.fcIndex = 0; state.fcShown = false;
+  state.topicId = id; state.screen = 'flashcards';
   renderFlashcard();
 }
 function renderFlashcard() {
   if (state.fcIndex >= state.flashcards.length) { renderFlashcardsDone(); return; }
   const c = state.flashcards[state.fcIndex];
   const t = findTopic(state.topicId);
-  app.innerHTML = `<div class="topbar">
-    <button class="back-btn" onclick="renderTopic('${state.topicId}')">←</button>
-    <div class="title">${t.title} · карточка ${state.fcIndex + 1} из ${state.flashcards.length}</div>
-  </div>
+  app.innerHTML = `<div class="topbar"><button class="back-btn" onclick="renderTopic('${state.topicId}')">←</button><div class="title">${t.title} · ${state.fcIndex + 1}/${state.flashcards.length}</div></div>
   <div class="progress"><div style="width:${Math.round(state.fcIndex / state.flashcards.length * 100)}%"></div></div>
   <div class="flashcard" onclick="flipCard()">
     <div class="fc-question">${c.q}</div>
@@ -504,8 +565,7 @@ function flipCard() { state.fcShown = !state.fcShown; renderFlashcard(); }
 function nextCard() { state.fcIndex++; state.fcShown = false; renderFlashcard(); }
 function renderFlashcardsDone() {
   app.innerHTML = `<div class="card center">
-    <h2>🎴 Карточки пройдены</h2>
-    <div class="big">${state.flashcards.length}</div>
+    <h2>🎴 Карточки пройдены</h2><div class="big">${state.flashcards.length}</div>
     <div class="meta">карточек просмотрено</div>
   </div>
   <div class="card">
@@ -515,26 +575,21 @@ function renderFlashcardsDone() {
   window.scrollTo(0, 0);
 }
 
-// ============ ПОИСК ============
 function renderSearch() {
   state.screen = 'search';
-  app.innerHTML = `<div class="topbar"><button class="back-btn" onclick="renderMenu()">←</button><div class="title">Поиск по конспектам</div></div>
-    <h1>🔍 Поиск</h1>
-    <input type="text" class="search-input" id="searchInput" placeholder="Введи слово, например: задержание" autocomplete="off">
+  app.innerHTML = `<div class="topbar"><button class="back-btn" onclick="renderMenu()">←</button><div class="title">Поиск</div></div>
+    <h1>🔍 Поиск по конспектам</h1>
+    <input type="text" class="search-input" id="searchInput" placeholder="Например: задержание" autocomplete="off">
     <div id="searchResults"></div>`;
   const inp = document.getElementById('searchInput');
   inp.addEventListener('input', () => doSearch(inp.value));
-  inp.focus();
-  doSearch('');
+  inp.focus(); doSearch('');
 }
 function doSearch(q) {
   const box = document.getElementById('searchResults');
   if (!box) return;
   const query = (q || '').trim().toLowerCase();
-  if (query.length < 2) {
-    box.innerHTML = `<div class="empty-state"><span class="big-emoji">🔎</span>Введи минимум 2 буквы</div>`;
-    return;
-  }
+  if (query.length < 2) { box.innerHTML = `<div class="empty-state"><span class="big-emoji">🔎</span>Введи минимум 2 буквы</div>`; return; }
   const results = [];
   getAllTopics().forEach(t => {
     (t.blocks || []).forEach(b => {
@@ -550,11 +605,8 @@ function doSearch(q) {
       }
     });
   });
-  if (results.length === 0) {
-    box.innerHTML = `<div class="empty-state"><span class="big-emoji">😕</span>Ничего не найдено</div>`;
-    return;
-  }
-  let html = `<div class="meta">Найдено: ${results.length} фрагментов</div>`;
+  if (results.length === 0) { box.innerHTML = `<div class="empty-state"><span class="big-emoji">😕</span>Ничего не найдено</div>`; return; }
+  let html = `<div class="meta">Найдено: ${results.length}</div>`;
   results.slice(0, 30).forEach(r => {
     html += `<div class="item-card" onclick="renderTopic('${r.topic.id}')">
       <div class="block-tag">${r.topic.subjectTitle}</div>
@@ -565,7 +617,6 @@ function doSearch(q) {
   box.innerHTML = html;
 }
 
-// ============ СЛУЧАЙНАЯ ТЕМА ============
 function renderRandom() {
   const all = getAllTopics();
   if (all.length === 0) { alert('Пока нет ни одной темы'); return; }
@@ -573,11 +624,9 @@ function renderRandom() {
   renderTopic(t.id);
 }
 
-// ============ TTS ============
 function speakTopic(id) {
-  const t = findTopic(id);
-  if (!t) return;
-  if (!('speechSynthesis' in window)) { alert('Синтез речи не поддерживается браузером'); return; }
+  const t = findTopic(id); if (!t) return;
+  if (!('speechSynthesis' in window)) { alert('Синтез речи не поддерживается'); return; }
   window.speechSynthesis.cancel();
   let text = t.title + '. ' + (t.subtitle || '') + '. ';
   (t.blocks || []).forEach(b => {
@@ -588,16 +637,13 @@ function speakTopic(id) {
     else if (b.type === 'ul') text += b.items.join('. ') + '. ';
   });
   const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'ru-RU';
-  u.rate = 1;
+  u.lang = 'ru-RU'; u.rate = 1;
   window.speechSynthesis.speak(u);
-  alert('🔊 Чтение началось. Чтобы остановить — выйди из темы или обнови страницу.');
+  alert('🔊 Чтение началось.');
 }
 
-// ============ УТИЛИТЫ ============
 function shuffle(a) { const r = a.slice(); for (let i = r.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [r[i], r[j]] = [r[j], r[i]]; } return r; }
 
-// ============ PWA ============
 (function setupPWA() {
   try {
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect fill="#0f172a" width="192" height="192" rx="36"/><text x="96" y="132" font-size="100" text-anchor="middle" fill="#facc15">📖</text></svg>';
