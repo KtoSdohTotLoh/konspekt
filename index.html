@@ -91,7 +91,6 @@ h4{font-size:clamp(15px,4vw,16.5px);margin:14px 0 6px;color:var(--bright)}
 .editor-toolbar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;padding:8px;background:var(--btn);border-radius:10px}
 .editor-toolbar button{background:var(--card);border:none;border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--text);font-size:13px;font-family:inherit;min-height:32px}
 .editor-toolbar button:hover{background:var(--btn-h)}
-.editor-toolbar .sep{width:1px;background:var(--bd);margin:0 4px}
 .help-block{background:var(--btn);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;color:var(--mid);margin-bottom:10px}
 .help-block code{background:var(--card);padding:2px 6px;border-radius:4px;font-family:monospace;color:var(--acc);font-size:.92em}
 .emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:10px}
@@ -116,11 +115,11 @@ const sb = supabase.createClient(SB_URL, SB_KEY);
 
 const S = {
   screen:'menu', theme:localStorage.getItem('k_theme')||'dark',
+  subjects: [],
   blocks:[], curBlock:null, curTopic:null,
   schedule:[], routine:[], session:null,
   readTopics:JSON.parse(localStorage.getItem('k_read')||'{}'),
   notes:JSON.parse(localStorage.getItem('k_notes')||'{}'),
-  cards:[], ci:0, cs:false,
 };
 function saveLS(){
   localStorage.setItem('k_theme',S.theme);
@@ -135,6 +134,25 @@ function showModal(h){closeModal();const o=document.createElement('div');o.class
 function closeModal(){const o=document.getElementById('mo');if(o)o.remove();}
 
 // ============================================================
+// СОХРАНЕНИЕ НАВИГАЦИИ
+// ============================================================
+const NAV_KEY='k_nav';
+function saveNav(){
+  if(S.screen==='search'||S.screen==='schedule') return;
+  try{
+    localStorage.setItem(NAV_KEY,JSON.stringify({
+      screen:S.screen,
+      blockId:S.curBlock?.id||null,
+      topicId:S.curTopic?.id||null,
+      ts:Date.now()
+    }));
+  }catch(e){}
+}
+function clearNav(){try{localStorage.removeItem(NAV_KEY);}catch(e){}}
+window.addEventListener('beforeunload',saveNav);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)saveNav();});
+
+// ============================================================
 // MARKDOWN-РЕНДЕР
 // ============================================================
 function renderMd(text){
@@ -145,9 +163,7 @@ function renderMd(text){
   const closeUl = () => { if(inUl){h+='</ul>';inUl=false;} };
   for(let i=0;i<lines.length;i++){
     let l = lines[i];
-    // Экранируем
     l = eh(l);
-    // Inline: **жирный** *курсив* `код`
     const inline = (s) => s
       .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
       .replace(/\*(.+?)\*/g,'<em>$1</em>')
@@ -176,7 +192,30 @@ async function init(){
   (st||[]).forEach(s=>{
     if(s.key==='schedule') S.schedule = s.value||[];
     if(s.key==='routine') S.routine = s.value||[];
+    if(s.key==='subjects') S.subjects = s.value||[];
   });
+  // Восстановление навигации
+  let nav;
+  try{nav=JSON.parse(localStorage.getItem(NAV_KEY)||'null');}catch(e){}
+  if(nav && nav.ts && Date.now()-nav.ts < 24*60*60*1000){
+    try{
+      if(nav.screen==='topic' && nav.topicId){
+        await loadBlocks();
+        const {data:t}=await sb.from('topics').select('*').eq('id',nav.topicId).single();
+        if(t){
+          const {data:b}=await sb.from('blocks').select('*').eq('id',t.block_id).single();
+          S.curBlock=b; S.curTopic=t;
+          S.screen='topic'; S.readTopics[t.id]=true; saveLS();
+          return openTopic(t.id);
+        }
+      }
+      if(nav.screen==='block' && nav.blockId){
+        await loadBlocks();
+        S.curBlock=S.blocks.find(b=>b.id===nav.blockId);
+        if(S.curBlock) return openBlock(nav.blockId);
+      }
+    }catch(e){console.error('Nav restore failed:',e);}
+  }
   render();
 }
 
@@ -214,6 +253,7 @@ async function renderMenu(){
       <button class="b" onclick="openBlockEditor(null)">+ Новый раздел</button>
       <button class="b" onclick="openScheduleEditor()">📅 Расписание недели</button>
       <button class="b" onclick="openRoutineEditor()">⏰ Распорядок дня</button>
+      <button class="b" onclick="openSubjectsEditor()">📚 Список предметов</button>
     </div>`;
   }
   if(!S.blocks.length){
@@ -232,6 +272,7 @@ async function renderMenu(){
 async function openBlock(blockId){
   S.curBlock = S.blocks.find(b=>b.id===blockId);
   S.screen='block';
+  saveNav();
   const topics = await loadTopics(blockId);
   const isAdmin = !!S.session;
   let h = `<div class="tb"><button class="bb" onclick="renderMenu()">←</button><div class="t">${eh(S.curBlock.name)}</div></div>
@@ -264,6 +305,7 @@ async function openTopic(topicId){
   if(!t) return;
   S.curTopic = t;
   S.screen='topic';
+  saveNav();
   S.readTopics[topicId]=true; saveLS();
   const isAdmin = !!S.session;
   let h = `<div class="tb"><button class="bb" onclick="openBlock('${t.block_id}')">←</button><div class="t">${eh(t.title)}</div></div>
@@ -294,7 +336,7 @@ async function openTopic(topicId){
 function saveNote(id){S.notes[id]=document.getElementById('naField').value;saveLS();alert('Заметка сохранена ✅');}
 
 // ============================================================
-// РЕДАКТОР КОНСПЕКТА (главное)
+// РЕДАКТОР КОНСПЕКТА
 // ============================================================
 function openTopicBodyEditor(){
   const t = S.curTopic;
@@ -363,7 +405,6 @@ function onDocxPicked(input){
   reader.onload = async (e)=>{
     try {
       const result = await mammoth.convertToHtml({arrayBuffer:e.target.result});
-      // Конвертируем HTML в нашу разметку
       let html = result.value;
       let md = html
         .replace(/<h1[^>]*>(.*?)<\/h1>/gi,'\n# $1\n')
@@ -400,7 +441,7 @@ function onDocxPicked(input){
 }
 
 // ============================================================
-// РАСПИСАНИЕ — визуальный редактор
+// РАСПИСАНИЕ
 // ============================================================
 function renderSchedule(){
   S.screen='schedule';
@@ -425,18 +466,27 @@ function renderSchedule(){
   app.innerHTML = h;
 }
 
+const TIME_OPTIONS = [
+  '1-2 час (09:30-11:00)',
+  '3-4 час (11:10-12:40)',
+  'Обед (12:40-13:25)',
+  '5-6 час (13:25-14:55)',
+  'Самоподготовка (15:05-16:35)',
+  'Подведение итогов (16:35-16:40)',
+];
+const DAY_NAMES=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+
 function openScheduleEditor(){
-  const names=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
   const full=[];
   for(let i=1;i<=6;i++){
-    const ex = S.schedule.find(d=>d.dayIdx===i);
-    full.push(ex?JSON.parse(JSON.stringify(ex)):{dayIdx:i,title:names[i],date:'',lessons:[]});
+    const ex=S.schedule.find(d=>d.dayIdx===i);
+    full.push(ex?JSON.parse(JSON.stringify(ex)):{dayIdx:i,title:DAY_NAMES[i],date:'',lessons:[]});
   }
-  const sun = S.schedule.find(d=>d.dayIdx===0);
-  full.push(sun?JSON.parse(JSON.stringify(sun)):{dayIdx:0,title:names[0],date:'',lessons:[]});
-  window.__sched = full;
+  const sun=S.schedule.find(d=>d.dayIdx===0);
+  full.push(sun?JSON.parse(JSON.stringify(sun)):{dayIdx:0,title:DAY_NAMES[0],date:'',lessons:[]});
+  window.__sched=full;
   showModal(`<h3>📅 Расписание недели</h3>
-    <div class="ib">Вводи пары на каждый день. Пустые дни станут выходными.</div>
+    <div class="ib">Выбирай время и предмет из списков — они выпадают при нажатии на поле. Если нужного нет — впиши своё.</div>
     <div id="schedC"></div>
     <div class="ma">
       <button class="b" onclick="closeModal()">Отмена</button>
@@ -446,42 +496,46 @@ function openScheduleEditor(){
 }
 
 function renderSchedForm(){
-  const c = document.getElementById('schedC');
-  if(!c) return;
+  const c=document.getElementById('schedC');
+  if(!c)return;
+  const subjectsList = (S.subjects||[]).length?S.subjects:['Правовая подготовка','Специальная подготовка','Огневая подготовка','ТСП','Физическая подготовка','Медицинская подготовка','Строевая подготовка','Психологическая подготовка'];
   let h='';
   window.__sched.forEach((d,di)=>{
-    h += `<div style="background:var(--btn);padding:10px;border-radius:10px;margin-bottom:10px">
+    h+=`<div style="background:var(--btn);padding:10px;border-radius:10px;margin-bottom:10px">
       <input class="in" style="margin:0 0 4px 0;font-weight:700;background:var(--card)" value="${eh(d.title)}" oninput="uS(${di},'title',this.value)" placeholder="День">
       <input class="in" style="margin:0 0 8px 0;font-size:13px;background:var(--card)" value="${eh(d.date)}" oninput="uS(${di},'date',this.value)" placeholder="13.10.26">`;
     (d.lessons||[]).forEach((l,li)=>{
-      h += `<div style="display:flex;gap:4px;margin-bottom:4px">
-        <input class="in" style="margin:0;width:110px;font-size:13px;background:var(--card)" value="${eh(l.time)}" oninput="uL(${di},${li},'time',this.value)" placeholder="09:30-11:00">
-        <input class="in" style="margin:0;flex:1;font-size:13px;background:var(--card)" value="${eh(l.subj)}" oninput="uL(${di},${li},'subj',this.value)" placeholder="Предмет">
+      h+=`<div style="display:flex;gap:4px;margin-bottom:4px;flex-wrap:wrap">
+        <input class="in" style="margin:0;width:130px;font-size:13px;background:var(--card)" list="timeList" value="${eh(l.time)}" oninput="uL(${di},${li},'time',this.value)" placeholder="Время">
+        <input class="in" style="margin:0;flex:1;min-width:120px;font-size:13px;background:var(--card)" list="subjList" value="${eh(l.subj)}" oninput="uL(${di},${li},'subj',this.value)" placeholder="Предмет">
         <button class="b sm dg" style="width:36px;min-width:36px;padding:0;text-align:center" onclick="rL(${di},${li})">✕</button>
       </div>`;
     });
-    h += `<button class="b sm" style="text-align:center;background:var(--card)" onclick="aL(${di})">+ Пара</button>
+    h+=`<button class="b sm" style="text-align:center;background:var(--card)" onclick="aL(${di})">+ Пара</button>
       <button class="b sm dg" style="text-align:center;margin-top:4px" onclick="cD(${di})">🗑 Очистить</button>
     </div>`;
   });
-  c.innerHTML = h;
+  h+=`<datalist id="timeList">${TIME_OPTIONS.map(t=>`<option value="${eh(t)}">`).join('')}</datalist>`;
+  h+=`<datalist id="subjList">${subjectsList.map(s=>`<option value="${eh(s)}">`).join('')}</datalist>`;
+  c.innerHTML=h;
 }
+
 function uS(di,k,v){window.__sched[di][k]=v;}
 function uL(di,li,k,v){window.__sched[di].lessons[li][k]=v;}
 function aL(di){if(!window.__sched[di].lessons)window.__sched[di].lessons=[];window.__sched[di].lessons.push({time:'',subj:''});renderSchedForm();}
 function rL(di,li){window.__sched[di].lessons.splice(li,1);renderSchedForm();}
 function cD(di){if(!confirm('Очистить все пары этого дня?'))return;window.__sched[di].lessons=[];renderSchedForm();}
 async function saveSchedule(){
-  const clean = window.__sched.map(d=>({dayIdx:d.dayIdx,title:d.title,date:d.date,lessons:(d.lessons||[]).filter(l=>(l.subj||'').trim())}));
-  const r = await sb.from('settings').upsert({key:'schedule',value:clean,updated_at:new Date().toISOString()});
+  const clean=window.__sched.map(d=>({dayIdx:d.dayIdx,title:d.title,date:d.date,lessons:(d.lessons||[]).filter(l=>(l.subj||'').trim())}));
+  const r=await sb.from('settings').upsert({key:'schedule',value:clean,updated_at:new Date().toISOString()});
   if(r.error){alert('Ошибка: '+r.error.message);return;}
-  S.schedule = clean;
+  S.schedule=clean;
   closeModal();
   renderMenu();
 }
 
 // ============================================================
-// РАСПОРЯДОК — визуальный редактор
+// РАСПОРЯДОК
 // ============================================================
 function openRoutineEditor(){
   window.__routine = JSON.parse(JSON.stringify(S.routine||[]));
@@ -522,6 +576,30 @@ async function saveRoutine(){
   const r = await sb.from('settings').upsert({key:'routine',value:clean,updated_at:new Date().toISOString()});
   if(r.error){alert('Ошибка: '+r.error.message);return;}
   S.routine = clean;
+  closeModal();
+  renderMenu();
+}
+
+// ============================================================
+// СПИСОК ПРЕДМЕТОВ
+// ============================================================
+function openSubjectsEditor(){
+  const cur = S.subjects || [];
+  const defaultList = ['Правовая подготовка','Специальная подготовка','Огневая подготовка','ТСП','Физическая подготовка','Медицинская подготовка','Строевая подготовка','Психологическая подготовка'];
+  const text = (cur.length ? cur : defaultList).join('\n');
+  showModal(`<h3>📚 Список предметов</h3>
+    <div class="ib">Каждый предмет с новой строки. Они появятся в выпадающем списке при составлении расписания.</div>
+    <textarea class="ta" id="subjText" style="min-height:240px;font-family:monospace;font-size:14px" placeholder="Правовая подготовка&#10;Огневая подготовка">${eh(text)}</textarea>
+    <div class="ma">
+      <button class="b" onclick="closeModal()">Отмена</button>
+      <button class="b pr" onclick="saveSubjects()">💾 Сохранить</button>
+    </div>`);
+}
+async function saveSubjects(){
+  const lines = document.getElementById('subjText').value.split('\n').map(x=>x.trim()).filter(Boolean);
+  const r = await sb.from('settings').upsert({key:'subjects',value:lines,updated_at:new Date().toISOString()});
+  if(r.error){alert('Ошибка: '+r.error.message);return;}
+  S.subjects = lines;
   closeModal();
   renderMenu();
 }
@@ -582,7 +660,6 @@ async function doAdminLogin(){
   renderMenu();
 }
 
-// ЭМОДЗИ
 const EMOJIS = ['📘','📗','📕','📙','📔','📓','📒','📚','🎯','🔫','⚖️','🛡️','🚔','💊','🩺','🚨','🔥','⚠️','📋','🗂️','🏛️','👮','🎓','💼'];
 
 function openBlockEditor(blockId){
@@ -627,6 +704,7 @@ async function deleteBlock(id){
   if(!confirm('Удалить раздел со всеми темами? Необратимо.'))return;
   await sb.from('blocks').delete().eq('id',id);
   S.curBlock=null;
+  clearNav();
   renderMenu();
 }
 
