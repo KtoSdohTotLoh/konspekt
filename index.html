@@ -630,7 +630,7 @@ async function deleteBlock(id){
   renderMenu();
 }
 
-function openTopicEditor(topicId){
+async function openTopicEditor(topicId){
   let t = null;
   if(topicId){
     const {data} = await sb.from('topics').select('*').eq('id',topicId).single();
