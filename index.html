@@ -9,137 +9,103 @@
 <meta name="apple-mobile-web-app-title" content="Конспект">
 <title>Конспект</title>
 <style>
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { overflow-x: hidden; }
-  :root {
-    --bg:#0f172a; --card:#1e293b; --btn:#334155; --btn-h:#475569;
-    --text:#e2e8f0; --dim:#94a3b8; --mid:#cbd5e1; --bright:#f1f5f9;
-    --acc:#2563eb; --acc-h:#1d4ed8; --bd:#475569;
-    --ok:#16a34a; --warn:#dc2626;
-    --key-bg:#1e3a8a; --key-bd:#3b82f6; --key-t:#dbeafe;
-    --term-bg:#422006; --term-bd:#a16207; --term-t:#fde68a;
-    --input:#0f172a; --input-bd:#475569;
-    --danger:#dc2626;
-  }
-  body.light {
-    --bg:#f1f5f9; --card:#fff; --btn:#e2e8f0; --btn-h:#cbd5e1;
-    --text:#0f172a; --dim:#64748b; --mid:#475569; --bright:#0f172a;
-    --acc:#2563eb; --acc-h:#1d4ed8; --bd:#cbd5e1;
-    --key-bg:#dbeafe; --key-bd:#2563eb; --key-t:#1e3a8a;
-    --term-bg:#fef3c7; --term-bd:#a16207; --term-t:#422006;
-    --input:#fff; --input-bd:#cbd5e1;
-  }
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; min-height:100dvh; font-size:clamp(15px,4.2vw,17px); line-height:1.6; padding-left:env(safe-area-inset-left); padding-right:env(safe-area-inset-right); padding-bottom:env(safe-area-inset-bottom); transition:.2s; }
-  .wrap { max-width:820px; margin:0 auto; padding:clamp(12px,3.5vw,18px); }
-  h1 { font-size:clamp(20px,5.5vw,24px); margin:4px 0 16px; }
-  h2 { font-size:clamp(17px,4.6vw,19px); margin:0 0 10px; }
-  h3 { font-size:clamp(15.5px,4.2vw,17px); margin:18px 0 8px; color:var(--bright); padding-bottom:4px; border-bottom:1px solid var(--bd); }
-  h3:first-child { margin-top:0; }
-  .mh { display:flex; justify-content:space-between; align-items:center; margin:4px 0 16px; gap:10px; flex-wrap:wrap; }
-  .mh h1 { margin:0; }
-  .hr { display:flex; gap:8px; align-items:center; }
-  .ic { background:var(--btn); border:none; border-radius:10px; font-size:18px; padding:8px 12px; cursor:pointer; color:var(--text); line-height:1; flex-shrink:0; }
-  .ic.active { background:var(--acc); color:#fff; }
-  .c { background:var(--card); border-radius:14px; padding:clamp(14px,4vw,20px); margin-bottom:12px; box-shadow:0 4px 14px rgba(0,0,0,.15); overflow-wrap:break-word; }
-  .b { display:block; width:100%; padding:13px 16px; margin:8px 0; background:var(--btn); color:var(--text); border:none; border-radius:10px; font-size:clamp(14.5px,4vw,16px); line-height:1.4; text-align:left; cursor:pointer; transition:.15s; font-family:inherit; min-height:48px; overflow-wrap:break-word; }
-  .b:hover { background:var(--btn-h); }
-  .b.pr { background:var(--acc); text-align:center; font-weight:600; color:#fff; }
-  .b.pr:hover { background:var(--acc-h); }
-  .b.dg { background:var(--danger); text-align:center; color:#fff; }
-  .b.bk { background:transparent; color:var(--dim); text-align:center; }
-  .b.sm { min-height:34px; padding:6px 10px; font-size:clamp(12.5px,3.5vw,13.5px); margin:3px 0; }
-  .b.cn { text-align:center; }
-  .r { display:flex; gap:8px; flex-wrap:wrap; }
-  .r .b { flex:1; text-align:center; min-width:80px; }
-  .m { font-size:clamp(12px,3.4vw,13.5px); color:var(--dim); margin-bottom:8px; }
-  .bdg { display:inline-block; padding:2px 7px; border-radius:5px; background:var(--btn); font-size:clamp(11px,3.1vw,12px); color:var(--mid); margin:2px 4px 2px 0; }
-  .bdg.ok { background:#14532d; color:#bbf7d0; }
-  .bdg.wr { background:#7c2d12; color:#fed7aa; }
-  .bdg.td { background:#7c2d12; color:#fed7aa; font-weight:700; }
-  .ctr { text-align:center; }
-  .tb { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
-  .tb .bb { background:var(--btn); color:var(--text); border:none; border-radius:10px; padding:8px 14px; font-size:18px; cursor:pointer; font-family:inherit; min-height:40px; min-width:44px; display:flex; align-items:center; justify-content:center; line-height:1; }
-  .tb .t { flex:1; font-size:clamp(12px,3.4vw,14px); color:var(--dim); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .wb { background:#7c2d12; color:#fed7aa; padding:12px; border-radius:10px; font-size:14px; margin-bottom:12px; line-height:1.5; }
-  .ib { background:var(--btn); color:var(--mid); padding:12px; border-radius:10px; font-size:13.5px; margin-bottom:12px; line-height:1.5; }
-  .in { width:100%; padding:13px 15px; font-size:clamp(15px,4vw,16px); background:var(--input); border:1.5px solid var(--input-bd); color:var(--text); border-radius:10px; font-family:inherit; margin-bottom:10px; -webkit-appearance:none; }
-  .in:focus { outline:none; border-color:var(--acc); }
-  .ta { width:100%; min-height:80px; padding:13px 15px; font-size:clamp(14.5px,3.8vw,15.5px); background:var(--input); border:1.5px solid var(--input-bd); color:var(--text); border-radius:10px; font-family:inherit; margin-bottom:10px; line-height:1.5; resize:vertical; -webkit-appearance:none; }
-  .ta:focus { outline:none; border-color:var(--acc); }
-  .lbl { display:block; font-size:clamp(13px,3.6vw,14.5px); color:var(--mid); margin-bottom:6px; margin-top:8px; }
-  .ic2 { background:var(--card); border-radius:12px; padding:14px; margin-bottom:8px; border:1px solid transparent; transition:.15s; }
-  .ic2.cl { cursor:pointer; }
-  .ic2.cl:hover { border-color:var(--bd); }
-  .ic2 .it { font-size:clamp(15px,4.2vw,16.5px); font-weight:600; line-height:1.4; color:var(--bright); margin-bottom:4px; }
-  .ic2 .is { font-size:clamp(12px,3.4vw,13.5px); color:var(--dim); line-height:1.4; }
-  .es { text-align:center; padding:40px 20px; color:var(--dim); font-size:15px; }
-  .es .be { font-size:48px; margin-bottom:12px; display:block; }
-  .tc { font-size:clamp(14.5px,4vw,16px); line-height:1.65; color:var(--mid); }
-  .tc p { margin:8px 0; }
-  .kb { background:var(--key-bg); border-left:4px solid var(--key-bd); padding:12px 14px; border-radius:8px; margin:12px 0; color:var(--key-t); font-weight:500; }
-  .tmb { background:var(--term-bg); border-left:4px solid var(--term-bd); padding:12px 14px; border-radius:8px; margin:12px 0; color:var(--term-t); }
-  .tmb b { color:var(--bright); font-size:1.05em; }
-  .tc ul { padding-left:22px; margin:8px 0; }
-  .tc li { margin:4px 0; }
-  .tc img { max-width:100%; border-radius:8px; margin:12px 0; display:block; }
-  .imc { font-size:12.5px; color:var(--dim); font-style:italic; text-align:center; margin-top:-6px; margin-bottom:12px; }
-  .tac { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px; }
-  .tac .b { margin:0; text-align:center; min-height:46px; font-size:clamp(12.5px,3.5vw,14px); padding:10px; }
-  .ss { color:var(--dim); font-size:clamp(13px,3.6vw,14.5px); margin-bottom:12px; }
-  .cli { display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px solid var(--bd); cursor:pointer; }
-  .cli:last-child { border-bottom:none; }
-  .clb { width:22px; height:22px; border:2px solid var(--bd); border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:14px; color:transparent; transition:.15s; margin-top:2px; }
-  .cli.done .clb { background:var(--ok); border-color:var(--ok); color:#fff; }
-  .cli.done .clt { color:var(--dim); text-decoration:line-through; }
-  .fc { background:var(--card); border-radius:14px; padding:24px 20px; margin-bottom:14px; text-align:center; min-height:200px; display:flex; flex-direction:column; justify-content:center; cursor:pointer; }
-  .fc .fq { font-size:clamp(15px,4.2vw,17px); color:var(--bright); font-weight:500; line-height:1.5; }
-  .fc .fh { font-size:clamp(11.5px,3.2vw,13px); color:var(--dim); margin-top:14px; }
-  .fc .fa { margin-top:16px; padding-top:16px; border-top:1px dashed var(--bd); color:var(--acc); font-size:clamp(14px,4vw,16px); line-height:1.55; text-align:left; }
-  .na { width:100%; min-height:100px; background:var(--input); border:1.5px solid var(--input-bd); color:var(--text); border-radius:10px; padding:12px 14px; font-family:inherit; font-size:clamp(14px,3.8vw,15.5px); line-height:1.55; resize:vertical; }
-  .na:focus { outline:none; border-color:var(--acc); }
-  .cn { background:var(--bg); border-left:4px solid var(--acc); padding:10px 14px; border-radius:8px; font-size:clamp(12.5px,3.5vw,14px); color:var(--dim); margin-bottom:12px; }
-  .mo { position:fixed; inset:0; background:rgba(0,0,0,.75); display:flex; align-items:flex-start; justify-content:center; padding:16px; z-index:1000; overflow-y:auto; }
-  .md { background:var(--card); border-radius:14px; padding:20px; max-width:560px; width:100%; max-height:90vh; overflow-y:auto; margin:auto; }
-  .md h3 { margin-top:0; border:none; padding:0; }
-  .ma { display:flex; gap:8px; margin-top:12px; }
-  .ma .b { flex:1; text-align:center; }
-  .sp { display:inline-block; width:18px; height:18px; border:2px solid var(--bd); border-top-color:var(--acc); border-radius:50%; animation:sp .8s linear infinite; vertical-align:middle; margin-right:8px; }
-  @keyframes sp { to { transform:rotate(360deg); } }
-  .hd { display:none !important; }
-  .sd { background:var(--card); border-radius:12px; padding:12px 14px; margin-bottom:10px; border-left:4px solid var(--bd); }
-  .sd.td { border-left-color:#ea580c; }
-  .sdh { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; flex-wrap:wrap; }
-  .sdt { font-size:clamp(15px,4.2vw,16.5px); font-weight:700; color:var(--bright); }
-  .sdd { font-size:clamp(11.5px,3.2vw,13px); color:var(--dim); }
-  .sl { display:flex; gap:10px; padding:6px 0; font-size:clamp(13.5px,3.8vw,15px); line-height:1.45; border-bottom:1px dashed var(--bd); }
-  .sl:last-child { border-bottom:none; }
-  .st { min-width:96px; color:var(--dim); font-size:clamp(12px,3.4vw,13.5px); font-variant-numeric:tabular-nums; flex-shrink:0; }
-  .ss2 { flex:1; color:var(--text); }
-  .se { padding:6px 0; color:var(--dim); font-size:clamp(13px,3.6vw,14px); font-style:italic; }
-  .rr { display:flex; gap:10px; padding:6px 0; border-bottom:1px dashed var(--bd); font-size:clamp(13.5px,3.8vw,15px); }
-  .rr:last-child { border-bottom:none; }
-  .rt { min-width:130px; color:var(--acc); font-weight:600; font-variant-numeric:tabular-nums; flex-shrink:0; }
-  .rw { flex:1; color:var(--text); }
-  .ar { display:flex; gap:8px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--bd); }
-  .ar:last-child { border-bottom:none; }
-  .arn { min-width:26px; color:var(--dim); font-size:13px; }
-  .arb { flex:1; font-size:clamp(13px,3.6vw,14.5px); line-height:1.4; }
-  .ara { display:flex; gap:4px; flex-shrink:0; }
-  .ara button { background:var(--btn); border:none; border-radius:6px; padding:6px 9px; cursor:pointer; color:var(--text); font-size:13px; }
-  .ara button:hover { background:var(--btn-h); }
-  .ara button.dg { background:var(--danger); color:#fff; }
-  .ctt { display:inline-block; padding:2px 6px; border-radius:4px; font-size:11px; font-weight:600; margin-right:6px; vertical-align:middle; }
-  .ct-h3{background:#6366f1;color:#fff} .ct-p{background:#64748b;color:#fff} .ct-key{background:#2563eb;color:#fff}
-  .ct-term{background:#a16207;color:#fff} .ct-ul{background:#0891b2;color:#fff} .ct-card{background:#7c3aed;color:#fff} .ct-image{background:#16a34a;color:#fff}
-  .sh { display:none; }
-  .up-box { border:2px dashed var(--input-bd); border-radius:10px; padding:16px; text-align:center; cursor:pointer; }
-  .up-box:hover { border-color:var(--acc); background:var(--btn); }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{overflow-x:hidden}
+:root{--bg:#0f172a;--card:#1e293b;--btn:#334155;--btn-h:#475569;--text:#e2e8f0;--dim:#94a3b8;--mid:#cbd5e1;--bright:#f1f5f9;--acc:#2563eb;--acc-h:#1d4ed8;--bd:#475569;--ok:#16a34a;--warn:#dc2626;--key-bg:#1e3a8a;--key-bd:#3b82f6;--key-t:#dbeafe;--input:#0f172a;--input-bd:#475569;--danger:#dc2626;--today-bd:#ea580c}
+body.light{--bg:#f1f5f9;--card:#fff;--btn:#e2e8f0;--btn-h:#cbd5e1;--text:#0f172a;--dim:#64748b;--mid:#475569;--bright:#0f172a;--bd:#cbd5e1;--key-bg:#dbeafe;--key-bd:#2563eb;--key-t:#1e3a8a;--input:#fff;--input-bd:#cbd5e1}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;font-size:clamp(15px,4.2vw,17px);line-height:1.6;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom);transition:.2s}
+.wrap{max-width:820px;margin:0 auto;padding:clamp(12px,3.5vw,18px)}
+h1{font-size:clamp(20px,5.5vw,24px);margin:4px 0 16px}
+h2{font-size:clamp(17px,4.6vw,19px);margin:0 0 10px}
+h3{font-size:clamp(16px,4.3vw,18px);margin:20px 0 8px;color:var(--bright);padding-bottom:4px;border-bottom:1px solid var(--bd)}
+h4{font-size:clamp(15px,4vw,16.5px);margin:14px 0 6px;color:var(--bright)}
+.mh{display:flex;justify-content:space-between;align-items:center;margin:4px 0 16px;gap:10px;flex-wrap:wrap}
+.mh h1{margin:0}
+.hr{display:flex;gap:8px;align-items:center}
+.ic{background:var(--btn);border:none;border-radius:10px;font-size:18px;padding:8px 12px;cursor:pointer;color:var(--text);line-height:1;flex-shrink:0}
+.ic.active{background:var(--acc);color:#fff}
+.c{background:var(--card);border-radius:14px;padding:clamp(14px,4vw,20px);margin-bottom:12px;box-shadow:0 4px 14px rgba(0,0,0,.15);overflow-wrap:break-word}
+.b{display:block;width:100%;padding:13px 16px;margin:8px 0;background:var(--btn);color:var(--text);border:none;border-radius:10px;font-size:clamp(14.5px,4vw,16px);line-height:1.4;text-align:left;cursor:pointer;transition:.15s;font-family:inherit;min-height:48px;overflow-wrap:break-word}
+.b:hover{background:var(--btn-h)}
+.b.pr{background:var(--acc);text-align:center;font-weight:600;color:#fff}
+.b.pr:hover{background:var(--acc-h)}
+.b.dg{background:var(--danger);text-align:center;color:#fff}
+.b.bk{background:transparent;color:var(--dim);text-align:center}
+.b.sm{min-height:34px;padding:6px 10px;font-size:clamp(12.5px,3.5vw,13.5px);margin:3px 0}
+.b.cn{text-align:center}
+.r{display:flex;gap:8px;flex-wrap:wrap}
+.r .b{flex:1;text-align:center;min-width:80px}
+.m{font-size:clamp(12px,3.4vw,13.5px);color:var(--dim);margin-bottom:8px}
+.bdg{display:inline-block;padding:2px 7px;border-radius:5px;background:var(--btn);font-size:clamp(11px,3.1vw,12px);color:var(--mid);margin:2px 4px 2px 0}
+.bdg.td{background:#7c2d12;color:#fed7aa;font-weight:700}
+.ctr{text-align:center}
+.tb{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.tb .bb{background:var(--btn);color:var(--text);border:none;border-radius:10px;padding:8px 14px;font-size:18px;cursor:pointer;font-family:inherit;min-height:40px;min-width:44px;display:flex;align-items:center;justify-content:center;line-height:1}
+.tb .t{flex:1;font-size:clamp(12px,3.4vw,14px);color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ib{background:var(--btn);color:var(--mid);padding:12px;border-radius:10px;font-size:13.5px;margin-bottom:12px;line-height:1.5}
+.in{width:100%;padding:13px 15px;font-size:clamp(15px,4vw,16px);background:var(--input);border:1.5px solid var(--input-bd);color:var(--text);border-radius:10px;font-family:inherit;margin-bottom:10px;-webkit-appearance:none}
+.in:focus{outline:none;border-color:var(--acc)}
+.ta{width:100%;min-height:100px;padding:13px 15px;font-size:clamp(14.5px,3.8vw,15.5px);background:var(--input);border:1.5px solid var(--input-bd);color:var(--text);border-radius:10px;font-family:inherit;margin-bottom:10px;line-height:1.6;resize:vertical;-webkit-appearance:none}
+.ta:focus{outline:none;border-color:var(--acc)}
+.lbl{display:block;font-size:clamp(13px,3.6vw,14.5px);color:var(--mid);margin-bottom:6px;margin-top:8px}
+.ic2{background:var(--card);border-radius:12px;padding:14px;margin-bottom:8px;border:1px solid transparent;transition:.15s}
+.ic2.cl{cursor:pointer}
+.ic2.cl:hover{border-color:var(--bd)}
+.ic2 .it{font-size:clamp(15px,4.2vw,16.5px);font-weight:600;line-height:1.4;color:var(--bright);margin-bottom:4px}
+.ic2 .is{font-size:clamp(12px,3.4vw,13.5px);color:var(--dim);line-height:1.4}
+.es{text-align:center;padding:40px 20px;color:var(--dim);font-size:15px}
+.es .be{font-size:48px;margin-bottom:12px;display:block}
+.tc{font-size:clamp(14.5px,4vw,16px);line-height:1.7;color:var(--mid)}
+.tc p{margin:10px 0}
+.tc .kb{background:var(--key-bg);border-left:4px solid var(--key-bd);padding:12px 14px;border-radius:8px;margin:14px 0;color:var(--key-t);font-weight:500}
+.tc ul{padding-left:22px;margin:8px 0}
+.tc li{margin:4px 0}
+.tc img{max-width:100%;border-radius:8px;margin:12px 0;display:block}
+.tc blockquote{background:var(--key-bg);border-left:4px solid var(--key-bd);padding:12px 14px;border-radius:8px;margin:14px 0;color:var(--key-t);font-weight:500}
+.tc strong{color:var(--bright)}
+.tc em{color:var(--acc);font-style:normal;font-weight:500}
+.tc code{background:var(--btn);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:.92em}
+.tc hr{border:none;border-top:1px solid var(--bd);margin:20px 0}
+.sd{background:var(--card);border-radius:12px;padding:12px 14px;margin-bottom:10px;border-left:4px solid var(--bd)}
+.sd.td{border-left-color:var(--today-bd)}
+.sdh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px;flex-wrap:wrap}
+.sdt{font-size:clamp(15px,4.2vw,16.5px);font-weight:700;color:var(--bright)}
+.sdd{font-size:clamp(11.5px,3.2vw,13px);color:var(--dim)}
+.sl{display:flex;gap:10px;padding:6px 0;font-size:clamp(13.5px,3.8vw,15px);line-height:1.45;border-bottom:1px dashed var(--bd)}
+.sl:last-child{border-bottom:none}
+.st{min-width:96px;color:var(--dim);font-size:clamp(12px,3.4vw,13.5px);font-variant-numeric:tabular-nums;flex-shrink:0}
+.ss2{flex:1;color:var(--text)}
+.se{padding:6px 0;color:var(--dim);font-size:clamp(13px,3.6vw,14px);font-style:italic}
+.rr{display:flex;gap:10px;padding:6px 0;border-bottom:1px dashed var(--bd);font-size:clamp(13.5px,3.8vw,15px)}
+.rr:last-child{border-bottom:none}
+.rt{min-width:130px;color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums;flex-shrink:0}
+.rw{flex:1;color:var(--text)}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:flex-start;justify-content:center;padding:16px;z-index:1000;overflow-y:auto}
+.md{background:var(--card);border-radius:14px;padding:20px;max-width:620px;width:100%;max-height:92vh;overflow-y:auto;margin:auto}
+.md h3{margin-top:0;border:none;padding:0;font-size:clamp(17px,4.6vw,19px)}
+.ma{display:flex;gap:8px;margin-top:12px;position:sticky;bottom:0;background:var(--card);padding-top:10px;padding-bottom:4px}
+.ma .b{flex:1;text-align:center}
+.sp{display:inline-block;width:18px;height:18px;border:2px solid var(--bd);border-top-color:var(--acc);border-radius:50%;animation:sp .8s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hd{display:none!important}
+.editor-toolbar{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;padding:8px;background:var(--btn);border-radius:10px}
+.editor-toolbar button{background:var(--card);border:none;border-radius:6px;padding:6px 10px;cursor:pointer;color:var(--text);font-size:13px;font-family:inherit;min-height:32px}
+.editor-toolbar button:hover{background:var(--btn-h)}
+.editor-toolbar .sep{width:1px;background:var(--bd);margin:0 4px}
+.help-block{background:var(--btn);border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.55;color:var(--mid);margin-bottom:10px}
+.help-block code{background:var(--card);padding:2px 6px;border-radius:4px;font-family:monospace;color:var(--acc);font-size:.92em}
+.emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:10px}
+.emoji-grid button{background:var(--btn);border:none;border-radius:8px;padding:10px 6px;font-size:22px;cursor:pointer;line-height:1}
+.emoji-grid button:hover{background:var(--btn-h)}
+.emoji-grid button.sel{background:var(--acc);box-shadow:0 0 0 2px var(--acc)}
 </style>
 </head>
 <body>
 <div class="wrap" id="app"><div class="es"><span class="sp"></span>Загрузка...</div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+
 <script>
 // ============================================================
 // КОНФИГ
@@ -148,272 +114,303 @@ const SB_URL = 'https://goxunwrvqrppfukbyzvb.supabase.co';
 const SB_KEY = 'sb_publishable_WVJeW5Bbxi3s2NsV0MOxlQ_zBxav3-2';
 const sb = supabase.createClient(SB_URL, SB_KEY);
 
-// ============================================================
-// СОСТОЯНИЕ
-// ============================================================
 const S = {
-  screen: 'menu',
-  theme: localStorage.getItem('k_theme') || 'dark',
-  blocks: [],
-  curBlock: null,
-  curTopic: null,
-  curBlockAdmin: null,
-  curTopicAdmin: null,
-  schedule: [],
-  routine: [],
-  session: null,
-  compact: localStorage.getItem('k_compact') === '1',
-  readTopics: JSON.parse(localStorage.getItem('k_read') || '{}'),
-  notes: JSON.parse(localStorage.getItem('k_notes') || '{}'),
-  checklist: JSON.parse(localStorage.getItem('k_cl') || '{}'),
-  cards: [], ci: 0, cs: false,
+  screen:'menu', theme:localStorage.getItem('k_theme')||'dark',
+  blocks:[], curBlock:null, curTopic:null,
+  schedule:[], routine:[], session:null,
+  readTopics:JSON.parse(localStorage.getItem('k_read')||'{}'),
+  notes:JSON.parse(localStorage.getItem('k_notes')||'{}'),
+  cards:[], ci:0, cs:false,
 };
-
-function saveLS() {
-  localStorage.setItem('k_theme', S.theme);
-  localStorage.setItem('k_compact', S.compact ? '1' : '0');
-  localStorage.setItem('k_read', JSON.stringify(S.readTopics));
-  localStorage.setItem('k_notes', JSON.stringify(S.notes));
-  localStorage.setItem('k_cl', JSON.stringify(S.checklist));
+function saveLS(){
+  localStorage.setItem('k_theme',S.theme);
+  localStorage.setItem('k_read',JSON.stringify(S.readTopics));
+  localStorage.setItem('k_notes',JSON.stringify(S.notes));
 }
-function eh(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function applyTheme() { document.body.classList.toggle('light', S.theme === 'light'); }
-function toggleTheme() { S.theme = S.theme === 'light' ? 'dark' : 'light'; applyTheme(); saveLS(); render(); }
-function fmtDate(iso) { return iso ? new Date(iso).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—'; }
+function eh(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function applyTheme(){document.body.classList.toggle('light',S.theme==='light');}
+function toggleTheme(){S.theme=S.theme==='light'?'dark':'light';applyTheme();saveLS();render();}
+const app=document.getElementById('app');
+function showModal(h){closeModal();const o=document.createElement('div');o.className='mo';o.id='mo';o.onclick=e=>{if(e.target===o)closeModal();};o.innerHTML=`<div class="md">${h}</div>`;document.body.appendChild(o);}
+function closeModal(){const o=document.getElementById('mo');if(o)o.remove();}
 
-const app = document.getElementById('app');
-function showModal(h) { closeModal(); const o = document.createElement('div'); o.className='mo'; o.id='mo'; o.onclick=e=>{if(e.target===o)closeModal();}; o.innerHTML=`<div class="md">${h}</div>`; document.body.appendChild(o); }
-function closeModal() { const o = document.getElementById('mo'); if (o) o.remove(); }
+// ============================================================
+// MARKDOWN-РЕНДЕР
+// ============================================================
+function renderMd(text){
+  if(!text) return '<div class="es" style="padding:20px"><span class="be">✍️</span>Пока пусто</div>';
+  const lines = text.replace(/\r\n/g,'\n').split('\n');
+  let h = '';
+  let inUl = false;
+  const closeUl = () => { if(inUl){h+='</ul>';inUl=false;} };
+  for(let i=0;i<lines.length;i++){
+    let l = lines[i];
+    // Экранируем
+    l = eh(l);
+    // Inline: **жирный** *курсив* `код`
+    const inline = (s) => s
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/`(.+?)`/g,'<code>$1</code>');
+    if(l.startsWith('### ')){ closeUl(); h += `<h4>${inline(l.slice(4))}</h4>`; }
+    else if(l.startsWith('## ')){ closeUl(); h += `<h3>${inline(l.slice(3))}</h3>`; }
+    else if(l.startsWith('# ')){ closeUl(); h += `<h3 style="font-size:1.15em">${inline(l.slice(2))}</h3>`; }
+    else if(l.startsWith('> ')){ closeUl(); h += `<blockquote>${inline(l.slice(2))}</blockquote>`; }
+    else if(l.startsWith('- ')||l.startsWith('• ')){ if(!inUl){h+='<ul>';inUl=true;} h += `<li>${inline(l.slice(2))}</li>`; }
+    else if(l.trim()==='---'){ closeUl(); h += '<hr>'; }
+    else if(l.trim()===''){ closeUl(); }
+    else { closeUl(); h += `<p>${inline(l)}</p>`; }
+  }
+  closeUl();
+  return h;
+}
 
 // ============================================================
 // ИНИЦИАЛИЗАЦИЯ
 // ============================================================
-async function init() {
+async function init(){
   applyTheme();
-  const { data } = await sb.auth.getSession();
+  const {data} = await sb.auth.getSession();
   S.session = data?.session || null;
-  const { data: settings } = await sb.from('settings').select('*');
-  (settings || []).forEach(s => {
-    if (s.key === 'schedule') S.schedule = s.value || [];
-    if (s.key === 'routine') S.routine = s.value || [];
+  const {data:st} = await sb.from('settings').select('*');
+  (st||[]).forEach(s=>{
+    if(s.key==='schedule') S.schedule = s.value||[];
+    if(s.key==='routine') S.routine = s.value||[];
   });
   render();
 }
 
-async function loadBlocks() {
-  const { data } = await sb.from('blocks').select('*').order('order_index').order('created_at');
-  S.blocks = data || [];
+async function loadBlocks(){
+  const {data} = await sb.from('blocks').select('*').order('order_index').order('created_at');
+  S.blocks = data||[];
   return S.blocks;
 }
-async function loadTopics(blockId) {
-  const { data } = await sb.from('topics').select('*').eq('block_id', blockId).order('order_index').order('created_at');
-  return data || [];
-}
-async function loadContent(topicId) {
-  const { data } = await sb.from('content').select('*').eq('topic_id', topicId).order('order_index').order('created_at');
-  return data || [];
-}
-async function loadChecklist(topicId) {
-  const { data } = await sb.from('checklist').select('*').eq('topic_id', topicId).order('order_index');
-  return data || [];
+async function loadTopics(blockId){
+  const {data} = await sb.from('topics').select('*').eq('block_id',blockId).order('order_index').order('created_at');
+  return data||[];
 }
 
 // ============================================================
 // ГЛАВНОЕ МЕНЮ
 // ============================================================
-async function render() {
-  if (S.screen === 'menu') return renderMenu();
-  if (S.screen === 'topic') return renderTopic(S.curTopic.id);
-}
-
-async function renderMenu() {
-  S.screen = 'menu';
-  app.innerHTML = `<div class="es"><span class="sp"></span>Загрузка...</div>`;
+async function render(){ if(S.screen==='menu') return renderMenu(); }
+async function renderMenu(){
+  S.screen='menu';
+  app.innerHTML=`<div class="es"><span class="sp"></span>Загрузка...</div>`;
   await loadBlocks();
   const isAdmin = !!S.session;
-  let h = `
-    <div class="mh">
-      <h1>📖 Конспект</h1>
-      <div class="hr">
-        <button class="ic" onclick="renderSearch()" title="Поиск">🔍</button>
-        <button class="ic" onclick="renderSchedule()" title="Расписание">📅</button>
-        <button class="ic" onclick="toggleTheme()">${S.theme==='light'?'🌙':'☀️'}</button>
-        <button class="ic ${isAdmin?'active':''}" onclick="toggleAdmin()">🔒</button>
-      </div>
+  let h = `<div class="mh">
+    <h1>📖 Конспект</h1>
+    <div class="hr">
+      <button class="ic" onclick="renderSearch()" title="Поиск">🔍</button>
+      <button class="ic" onclick="renderSchedule()" title="Расписание">📅</button>
+      <button class="ic" onclick="toggleTheme()">${S.theme==='light'?'🌙':'☀️'}</button>
+      <button class="ic ${isAdmin?'active':''}" onclick="toggleAdmin()" title="Админ">${isAdmin?'🔓':'🔒'}</button>
+    </div>
+  </div>`;
+  if(isAdmin){
+    h += `<div class="c" style="border:2px solid var(--acc)">
+      <div class="m" style="color:var(--acc);font-weight:600;margin-bottom:8px">⚙️ Режим редактирования</div>
+      <button class="b" onclick="openBlockEditor(null)">+ Новый раздел</button>
+      <button class="b" onclick="openScheduleEditor()">📅 Расписание недели</button>
+      <button class="b" onclick="openRoutineEditor()">⏰ Распорядок дня</button>
     </div>`;
-  if (!S.blocks.length) {
+  }
+  if(!S.blocks.length){
     h += `<div class="es"><span class="be">📭</span>Пока нет ни одного раздела.${isAdmin?'<br><br><button class="b pr" onclick="openBlockEditor(null)">+ Создать раздел</button>':'<br>Скоро появится.'}</div>`;
   } else {
-    S.blocks.forEach(b => {
-      const topics = 0; // счётчик подгрузим ниже
+    S.blocks.forEach(b=>{
       h += `<div class="ic2 cl" onclick="openBlock('${b.id}')">
-        <div class="it">${b.icon || '📘'} ${eh(b.name)}</div>
-        ${b.description ? `<div class="is">${eh(b.description)}</div>` : ''}
+        <div class="it">${b.icon||'📘'} ${eh(b.name)}</div>
+        ${b.description?`<div class="is">${eh(b.description)}</div>`:''}
       </div>`;
     });
-  }
-  if (isAdmin) {
-    h += `<div class="c" style="margin-top:14px"><div class="m">Режим редактирования включён</div>
-      <button class="b" onclick="openScheduleEditor()">📅 Редактировать расписание</button>
-      <button class="b" onclick="openRoutineEditor()">⏰ Редактировать распорядок дня</button>
-      <button class="b" onclick="openBlockEditor(null)">+ Новый раздел</button>
-    </div>`;
   }
   app.innerHTML = h;
 }
 
-async function openBlock(blockId) {
-  S.curBlock = S.blocks.find(b => b.id === blockId);
-  S.screen = 'block';
+async function openBlock(blockId){
+  S.curBlock = S.blocks.find(b=>b.id===blockId);
+  S.screen='block';
   const topics = await loadTopics(blockId);
+  const isAdmin = !!S.session;
   let h = `<div class="tb"><button class="bb" onclick="renderMenu()">←</button><div class="t">${eh(S.curBlock.name)}</div></div>
     <h1>${S.curBlock.icon||'📘'} ${eh(S.curBlock.name)}</h1>`;
-  const isAdmin = !!S.session;
-  if (isAdmin) h += `<div class="c"><button class="b pr" onclick="openTopicEditor(null)">+ Новая тема</button></div>`;
-  if (!topics.length) {
+  if(isAdmin) h += `<div class="c"><button class="b pr" onclick="openTopicEditor(null)">+ Новая тема</button></div>`;
+  if(!topics.length){
     h += `<div class="es"><span class="be">🚧</span>В этом разделе пока пусто.</div>`;
   } else {
-    topics.forEach(t => {
+    topics.forEach(t=>{
       const read = S.readTopics[t.id];
       h += `<div class="ic2 cl" onclick="openTopic('${t.id}')">
         <div class="it">${read?'<span style="color:var(--ok)">✅</span> ':''}${eh(t.title)}</div>
         ${t.subtitle?`<div class="is">${eh(t.subtitle)}</div>`:''}
         ${isAdmin?`<div class="r" style="margin-top:8px">
-          <button class="b sm" onclick="event.stopPropagation();openTopicEditor('${t.id}')">✏️ Изменить</button>
+          <button class="b sm" onclick="event.stopPropagation();openTopicEditor('${t.id}')">✏️ Название</button>
           <button class="b sm dg" onclick="event.stopPropagation();deleteTopic('${t.id}')">🗑 Удалить</button>
         </div>`:''}
       </div>`;
     });
   }
-  if (isAdmin) h += `<div class="c"><button class="b" onclick="openBlockEditor('${S.curBlock.id}')">✏️ Редактировать раздел</button>
-    <button class="b dg" onclick="deleteBlock('${S.curBlock.id}')">🗑 Удалить раздел</button></div>`;
+  if(isAdmin) h += `<div class="c">
+    <button class="b" onclick="openBlockEditor('${S.curBlock.id}')">✏️ Изменить раздел</button>
+    <button class="b dg" onclick="deleteBlock('${S.curBlock.id}')">🗑 Удалить раздел</button>
+  </div>`;
   app.innerHTML = h;
 }
 
-async function openTopic(topicId) {
-  const { data: t } = await sb.from('topics').select('*').eq('id', topicId).single();
-  if (!t) return;
+async function openTopic(topicId){
+  const {data:t} = await sb.from('topics').select('*').eq('id',topicId).single();
+  if(!t) return;
   S.curTopic = t;
-  S.screen = 'topic';
-  S.readTopics[topicId] = true; saveLS();
-  const [content, checklist] = await Promise.all([loadContent(topicId), loadChecklist(topicId)]);
-  S.curContent = content;
-  S.curChecklist = checklist;
+  S.screen='topic';
+  S.readTopics[topicId]=true; saveLS();
   const isAdmin = !!S.session;
-  const fav = false;
   let h = `<div class="tb"><button class="bb" onclick="openBlock('${t.block_id}')">←</button><div class="t">${eh(t.title)}</div></div>
     <h1>${eh(t.title)}</h1>
-    ${t.subtitle?`<div class="ss">${eh(t.subtitle)}</div>`:''}
-    <div class="tac">
-      <button class="b" onclick="toggleCompact()">${S.compact?'📖 Полный текст':'🎯 Только главное'}</button>
-      <button class="b" onclick="speak()">🔊 Слушать</button>
-      <button class="b" onclick="startCards()">🎴 Карточки (${content.filter(c=>c.type==='card').length})</button>
-      <button class="b" onclick="scrollNotes()">📝 Заметки</button>
-    </div>
-    ${S.compact?'<div class="cn">🎯 Режим «Только главное» — показаны заголовки и ключевые тезисы.</div>':''}
-    <div class="c"><div class="tc">${renderContent(content)}</div></div>`;
+    ${t.subtitle?`<div class="m" style="font-size:14px;margin-bottom:12px">${eh(t.subtitle)}</div>`:''}`;
 
-  if (isAdmin) {
-    h += `<div class="c"><div class="m">Админ-режим темы</div>
-      <button class="b pr" onclick="openContentEditor(null)">+ Добавить блок</button>
-      <button class="b" onclick="openTopicEditor('${t.id}')">✏️ Редактировать заголовок</button>
-      <button class="b" onclick="openChecklistEditor()">☑️ Редактировать чек-лист (${checklist.length})</button>
-      ${content.length?`<div style="margin-top:10px">${content.map((c,i)=>`<div class="ar">
-        <div class="arn">${i+1}</div>
-        <div class="arb"><span class="ctt ct-${c.type}">${c.type}</span>${eh(c.type==='ul'?(c.items||[]).join(' • ').slice(0,60):c.type==='term'?c.term:c.type==='card'?c.q:c.type==='image'?'[картинка]':c.text.slice(0,80))}…</div>
-        <div class="ara"><button onclick="openContentEditor('${c.id}')">✏️</button><button class="dg" onclick="deleteContent('${c.id}')">🗑</button></div>
-      </div>`).join('')}</div>`:''}
+  h += `<div class="c"><div class="tc">${renderMd(t.body||'')}</div></div>`;
+
+  h += `<div class="c" id="notes">
+    <div class="m">📝 Мои заметки</div>
+    <textarea class="ta" id="naField" placeholder="Мои мысли по теме...">${eh(S.notes[topicId]||'')}</textarea>
+    <button class="b pr" onclick="saveNote('${topicId}')">💾 Сохранить</button>
+  </div>`;
+
+  if(isAdmin){
+    h += `<div class="c" style="border:2px solid var(--acc)">
+      <div class="m" style="color:var(--acc);font-weight:600;margin-bottom:8px">⚙️ Редактирование темы</div>
+      <button class="b pr" onclick="openTopicBodyEditor()">✏️ Редактировать конспект</button>
+      <button class="b" onclick="openTopicEditor('${t.id}')">📝 Название и подзаголовок</button>
+      <button class="b" onclick="openBlock('${t.block_id}')">← К списку тем</button>
     </div>`;
   }
-
-  if (checklist.length) {
-    h += `<div class="c"><div class="m">☑️ Что надо знать</div>
-      ${checklist.map((c,i)=>{
-        const k = topicId+':'+i;
-        return `<div class="cli ${S.checklist[k]?'done':''}" onclick="toggleCl('${topicId}',${i})">
-          <div class="clb">✓</div><div class="clt">${eh(c.text)}</div></div>`;
-      }).join('')}</div>`;
-  }
-
-  h += `<div class="c" id="notes"><div class="m">📝 Мои заметки</div>
-    <textarea class="na" id="naField" placeholder="Мои мысли по теме...">${eh(S.notes[topicId]||'')}</textarea>
-    <button class="b pr" style="margin-top:8px" onclick="saveNote('${topicId}')">💾 Сохранить</button></div>
-    <div class="c"><button class="b bk" onclick="renderMenu()">← Главное меню</button></div>`;
+  h += `<div class="c"><button class="b bk" onclick="renderMenu()">← Главное меню</button></div>`;
   app.innerHTML = h;
   window.scrollTo(0,0);
 }
 
-function renderContent(items) {
-  let h = '';
-  (items||[]).forEach(c => {
-    if (S.compact && c.type !== 'h3' && c.type !== 'key') return;
-    if (c.type === 'h3') h += `<h3>${eh(c.text)}</h3>`;
-    else if (c.type === 'p') h += `<p>${c.text}</p>`;
-    else if (c.type === 'key') h += `<div class="kb">🔑 ${eh(c.text)}</div>`;
-    else if (c.type === 'term') h += `<div class="tmb"><b>${eh(c.term)}</b><br>${eh(c.def)}</div>`;
-    else if (c.type === 'ul') h += `<ul>${(c.items||[]).map(i=>`<li>${eh(i)}</li>`).join('')}</ul>`;
-    else if (c.type === 'image') h += `<img src="${eh(c.image_url)}" alt=""><div class="imc">${eh(c.image_caption||'')}</div>`;
-  });
-  return h;
-}
-
-function toggleCompact() { S.compact = !S.compact; saveLS(); openTopic(S.curTopic.id); }
-function scrollNotes() { document.getElementById('notes').scrollIntoView({behavior:'smooth'}); }
-function saveNote(id) { S.notes[id] = document.getElementById('naField').value; saveLS(); alert('Заметка сохранена ✅'); }
-function toggleCl(tid, idx) { const k = tid+':'+idx; if (S.checklist[k]) delete S.checklist[k]; else S.checklist[k]=true; saveLS(); openTopic(tid); }
-
-function speak() {
-  if (!('speechSynthesis' in window)) { alert('Синтез речи не поддерживается'); return; }
-  speechSynthesis.cancel();
-  let txt = S.curTopic.title + '. ';
-  (S.curContent||[]).forEach(c => {
-    if (c.type==='h3'||c.type==='p'||c.type==='key') txt += c.text + '. ';
-    else if (c.type==='term') txt += c.term + ': ' + c.def + ' ';
-    else if (c.type==='ul') txt += (c.items||[]).join('. ') + '. ';
-  });
-  const u = new SpeechSynthesisUtterance(txt);
-  u.lang='ru-RU'; u.rate=1;
-  speechSynthesis.speak(u);
-  alert('🔊 Чтение началось');
-}
+function saveNote(id){S.notes[id]=document.getElementById('naField').value;saveLS();alert('Заметка сохранена ✅');}
 
 // ============================================================
-// КАРТОЧКИ
+// РЕДАКТОР КОНСПЕКТА (главное)
 // ============================================================
-function startCards() {
-  const cards = (S.curContent||[]).filter(c=>c.type==='card').map(c=>({q:c.q,a:c.a}));
-  if (!cards.length) { alert('Нет карточек'); return; }
-  S.cards = cards.slice().sort(()=>Math.random()-0.5);
-  S.ci = 0; S.cs = false;
-  renderCard();
-}
-function renderCard() {
-  if (S.ci >= S.cards.length) {
-    app.innerHTML = `<div class="c ctr"><h2>🎴 Карточки пройдены</h2><div style="font-size:42px;font-weight:700;margin:10px 0">${S.cards.length}</div></div>
-      <div class="c"><button class="b pr" onclick="startCards()">Заново</button><button class="b" onclick="openTopic('${S.curTopic.id}')">← К теме</button></div>`;
-    return;
-  }
-  const c = S.cards[S.ci];
-  app.innerHTML = `<div class="tb"><button class="bb" onclick="openTopic('${S.curTopic.id}')">←</button><div class="t">${S.ci+1} / ${S.cards.length}</div></div>
-    <div class="fc" onclick="S.cs=!S.cs;renderCard()">
-      <div class="fq">${eh(c.q)}</div>
-      ${S.cs?`<div class="fa"><b>💡 Ответ:</b><br>${eh(c.a)}</div>`:`<div class="fh">👆 Нажми, чтобы увидеть ответ</div>`}
+function openTopicBodyEditor(){
+  const t = S.curTopic;
+  showModal(`<h3>✏️ Редактор конспекта</h3>
+    <div class="help-block">
+      <b>Как писать:</b><br>
+      <code># Заголовок</code> — большой<br>
+      <code>## Подзаголовок</code> — поменьше<br>
+      <code>**жирный**</code>, <code>*курсив*</code>, <code>\`код\`</code><br>
+      <code>- пункт</code> — список<br>
+      <code>> важное</code> — выделенный блок<br>
+      <code>---</code> — линия<br>
+      Пустая строка — новый абзац.
     </div>
-    <div class="c"><button class="b pr" onclick="S.ci++;S.cs=false;renderCard()">${S.ci+1>=S.cards.length?'Завершить':'Следующая →'}</button></div>`;
+    <div class="editor-toolbar">
+      <button onclick="insertMd('# ')">H1</button>
+      <button onclick="insertMd('## ')">H2</button>
+      <button onclick="insertMd('### ')">H3</button>
+      <button onclick="insertMd('**','**')">Жирный</button>
+      <button onclick="insertMd('*','*')">Курсив</button>
+      <button onclick="insertMd('> ')">Важное</button>
+      <button onclick="insertMd('- ')">Список</button>
+      <button onclick="insertMd('---\\n')">Линия</button>
+    </div>
+    <button class="b" onclick="importDocx()">📥 Импорт из Word (docx)</button>
+    <input type="file" id="docxFile" accept=".docx" style="display:none" onchange="onDocxPicked(this)">
+    <textarea class="ta" id="bodyField" style="min-height:300px;font-family:monospace;font-size:14px" placeholder="Начни писать конспект...">${eh(t.body||'')}</textarea>
+    <div class="ma">
+      <button class="b" onclick="closeModal()">Отмена</button>
+      <button class="b pr" onclick="saveTopicBody()">💾 Сохранить</button>
+    </div>`);
+}
+
+function insertMd(before, after){
+  const f = document.getElementById('bodyField');
+  if(!f) return;
+  const start = f.selectionStart;
+  const end = f.selectionEnd;
+  const txt = f.value;
+  const sel = txt.slice(start,end);
+  const beforeTxt = before || '';
+  const afterTxt = after || '';
+  f.value = txt.slice(0,start) + beforeTxt + sel + afterTxt + txt.slice(end);
+  f.focus();
+  const pos = start + beforeTxt.length + sel.length + afterTxt.length;
+  f.setSelectionRange(pos,pos);
+}
+
+async function saveTopicBody(){
+  const body = document.getElementById('bodyField').value;
+  const r = await sb.from('topics').update({body}).eq('id',S.curTopic.id);
+  if(r.error){alert('Ошибка: '+r.error.message);return;}
+  S.curTopic.body = body;
+  closeModal();
+  openTopic(S.curTopic.id);
+}
+
+function importDocx(){
+  document.getElementById('docxFile').click();
+}
+
+function onDocxPicked(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async (e)=>{
+    try {
+      const result = await mammoth.convertToHtml({arrayBuffer:e.target.result});
+      // Конвертируем HTML в нашу разметку
+      let html = result.value;
+      let md = html
+        .replace(/<h1[^>]*>(.*?)<\/h1>/gi,'\n# $1\n')
+        .replace(/<h2[^>]*>(.*?)<\/h2>/gi,'\n## $1\n')
+        .replace(/<h3[^>]*>(.*?)<\/h3>/gi,'\n### $1\n')
+        .replace(/<h4[^>]*>(.*?)<\/h4>/gi,'\n### $1\n')
+        .replace(/<strong[^>]*>(.*?)<\/strong>/gi,'**$1**')
+        .replace(/<b[^>]*>(.*?)<\/b>/gi,'**$1**')
+        .replace(/<em[^>]*>(.*?)<\/em>/gi,'*$1*')
+        .replace(/<i[^>]*>(.*?)<\/i>/gi,'*$1*')
+        .replace(/<li[^>]*>(.*?)<\/li>/gi,'- $1\n')
+        .replace(/<\/?ul[^>]*>/gi,'\n')
+        .replace(/<\/?ol[^>]*>/gi,'\n')
+        .replace(/<p[^>]*>(.*?)<\/p>/gi,'\n$1\n')
+        .replace(/<br\s*\/?>/gi,'\n')
+        .replace(/<[^>]+>/g,'')
+        .replace(/&nbsp;/g,' ')
+        .replace(/&amp;/g,'&')
+        .replace(/&lt;/g,'<')
+        .replace(/&gt;/g,'>')
+        .replace(/\n\n\n+/g,'\n\n')
+        .trim();
+      const f = document.getElementById('bodyField');
+      if(f.value.trim()){
+        if(!confirm('В поле уже есть текст. Заменить его импортированным?')) return;
+      }
+      f.value = md;
+      alert('✅ Импорт завершён. Проверь и сохрани.');
+    } catch(err){
+      alert('Не удалось импортировать: '+err.message);
+    }
+  };
+  reader.readAsArrayBuffer(file);
 }
 
 // ============================================================
-// РАСПИСАНИЕ
+// РАСПИСАНИЕ — визуальный редактор
 // ============================================================
-function renderSchedule() {
-  S.screen = 'schedule';
+function renderSchedule(){
+  S.screen='schedule';
   const today = new Date().getDay();
   let h = `<div class="tb"><button class="bb" onclick="renderMenu()">←</button><div class="t">Расписание</div></div><h1>📅 Расписание</h1>`;
-  if (!S.schedule.length) {
+  if(!S.schedule.length){
     h += `<div class="es"><span class="be">📅</span>Расписание пока не заполнено.</div>`;
   } else {
-    S.schedule.forEach(d => {
-      const isToday = d.dayIdx === today;
+    S.schedule.forEach(d=>{
+      const isToday = d.dayIdx===today;
       h += `<div class="sd ${isToday?'td':''}">
         <div class="sdh"><div class="sdt">${eh(d.title)}</div>
           <div class="sdd">${eh(d.date||'')}${isToday?' <span class="bdg td">СЕГОДНЯ</span>':''}</div></div>
@@ -421,56 +418,153 @@ function renderSchedule() {
       </div>`;
     });
   }
-  if (S.routine.length) {
+  if(S.routine.length){
     h += `<div class="c"><h2>⏰ Распорядок дня</h2>${S.routine.map(r=>`<div class="rr"><div class="rt">${eh(r.time)}</div><div class="rw">${eh(r.what)}</div></div>`).join('')}</div>`;
   }
   h += `<div class="c"><button class="b bk" onclick="renderMenu()">← Главное меню</button></div>`;
   app.innerHTML = h;
 }
 
+function openScheduleEditor(){
+  const names=['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
+  const full=[];
+  for(let i=1;i<=6;i++){
+    const ex = S.schedule.find(d=>d.dayIdx===i);
+    full.push(ex?JSON.parse(JSON.stringify(ex)):{dayIdx:i,title:names[i],date:'',lessons:[]});
+  }
+  const sun = S.schedule.find(d=>d.dayIdx===0);
+  full.push(sun?JSON.parse(JSON.stringify(sun)):{dayIdx:0,title:names[0],date:'',lessons:[]});
+  window.__sched = full;
+  showModal(`<h3>📅 Расписание недели</h3>
+    <div class="ib">Вводи пары на каждый день. Пустые дни станут выходными.</div>
+    <div id="schedC"></div>
+    <div class="ma">
+      <button class="b" onclick="closeModal()">Отмена</button>
+      <button class="b pr" onclick="saveSchedule()">💾 Сохранить</button>
+    </div>`);
+  renderSchedForm();
+}
+
+function renderSchedForm(){
+  const c = document.getElementById('schedC');
+  if(!c) return;
+  let h='';
+  window.__sched.forEach((d,di)=>{
+    h += `<div style="background:var(--btn);padding:10px;border-radius:10px;margin-bottom:10px">
+      <input class="in" style="margin:0 0 4px 0;font-weight:700;background:var(--card)" value="${eh(d.title)}" oninput="uS(${di},'title',this.value)" placeholder="День">
+      <input class="in" style="margin:0 0 8px 0;font-size:13px;background:var(--card)" value="${eh(d.date)}" oninput="uS(${di},'date',this.value)" placeholder="13.10.26">`;
+    (d.lessons||[]).forEach((l,li)=>{
+      h += `<div style="display:flex;gap:4px;margin-bottom:4px">
+        <input class="in" style="margin:0;width:110px;font-size:13px;background:var(--card)" value="${eh(l.time)}" oninput="uL(${di},${li},'time',this.value)" placeholder="09:30-11:00">
+        <input class="in" style="margin:0;flex:1;font-size:13px;background:var(--card)" value="${eh(l.subj)}" oninput="uL(${di},${li},'subj',this.value)" placeholder="Предмет">
+        <button class="b sm dg" style="width:36px;min-width:36px;padding:0;text-align:center" onclick="rL(${di},${li})">✕</button>
+      </div>`;
+    });
+    h += `<button class="b sm" style="text-align:center;background:var(--card)" onclick="aL(${di})">+ Пара</button>
+      <button class="b sm dg" style="text-align:center;margin-top:4px" onclick="cD(${di})">🗑 Очистить</button>
+    </div>`;
+  });
+  c.innerHTML = h;
+}
+function uS(di,k,v){window.__sched[di][k]=v;}
+function uL(di,li,k,v){window.__sched[di].lessons[li][k]=v;}
+function aL(di){if(!window.__sched[di].lessons)window.__sched[di].lessons=[];window.__sched[di].lessons.push({time:'',subj:''});renderSchedForm();}
+function rL(di,li){window.__sched[di].lessons.splice(li,1);renderSchedForm();}
+function cD(di){if(!confirm('Очистить все пары этого дня?'))return;window.__sched[di].lessons=[];renderSchedForm();}
+async function saveSchedule(){
+  const clean = window.__sched.map(d=>({dayIdx:d.dayIdx,title:d.title,date:d.date,lessons:(d.lessons||[]).filter(l=>(l.subj||'').trim())}));
+  const r = await sb.from('settings').upsert({key:'schedule',value:clean,updated_at:new Date().toISOString()});
+  if(r.error){alert('Ошибка: '+r.error.message);return;}
+  S.schedule = clean;
+  closeModal();
+  renderMenu();
+}
+
+// ============================================================
+// РАСПОРЯДОК — визуальный редактор
+// ============================================================
+function openRoutineEditor(){
+  window.__routine = JSON.parse(JSON.stringify(S.routine||[]));
+  if(!window.__routine.length){
+    window.__routine = [
+      {time:'09:00',what:'Прибытие в ЦПП'},
+      {time:'09:00-09:15',what:'Построение и утренний осмотр'},
+    ];
+  }
+  showModal(`<h3>⏰ Распорядок дня</h3>
+    <div class="ib">Время → что происходит</div>
+    <div id="rtC"></div>
+    <div class="ma">
+      <button class="b" onclick="closeModal()">Отмена</button>
+      <button class="b pr" onclick="saveRoutine()">💾 Сохранить</button>
+    </div>`);
+  renderRoutineForm();
+}
+function renderRoutineForm(){
+  const c = document.getElementById('rtC');
+  if(!c) return;
+  let h='';
+  window.__routine.forEach((r,i)=>{
+    h += `<div style="display:flex;gap:4px;margin-bottom:6px">
+      <input class="in" style="margin:0;width:120px;font-size:13px" value="${eh(r.time)}" oninput="uR(${i},'time',this.value)" placeholder="09:00">
+      <input class="in" style="margin:0;flex:1;font-size:13px" value="${eh(r.what)}" oninput="uR(${i},'what',this.value)" placeholder="Что происходит">
+      <button class="b sm dg" style="width:36px;min-width:36px;padding:0;text-align:center" onclick="rmR(${i})">✕</button>
+    </div>`;
+  });
+  h += `<button class="b sm" style="text-align:center" onclick="addR()">+ Строка</button>`;
+  c.innerHTML = h;
+}
+function uR(i,k,v){window.__routine[i][k]=v;}
+function addR(){window.__routine.push({time:'',what:''});renderRoutineForm();}
+function rmR(i){window.__routine.splice(i,1);renderRoutineForm();}
+async function saveRoutine(){
+  const clean = window.__routine.filter(r=>(r.what||'').trim());
+  const r = await sb.from('settings').upsert({key:'routine',value:clean,updated_at:new Date().toISOString()});
+  if(r.error){alert('Ошибка: '+r.error.message);return;}
+  S.routine = clean;
+  closeModal();
+  renderMenu();
+}
+
 // ============================================================
 // ПОИСК
 // ============================================================
-function renderSearch() {
-  S.screen = 'search';
+function renderSearch(){
+  S.screen='search';
   app.innerHTML = `<div class="tb"><button class="bb" onclick="renderMenu()">←</button><div class="t">Поиск</div></div><h1>🔍 Поиск</h1>
     <div class="c"><input class="in" id="sq" placeholder="Введи слово..." oninput="doSearch(this.value)"><div id="sr"></div></div>`;
   document.getElementById('sq').focus();
   doSearch('');
 }
-async function doSearch(q) {
+async function doSearch(q){
   const r = document.getElementById('sr');
-  if (!r) return;
+  if(!r) return;
   q = (q||'').trim().toLowerCase();
-  if (q.length < 2) { r.innerHTML = `<div class="es"><span class="be">🔎</span>Минимум 2 буквы</div>`; return; }
-  const { data: topics } = await sb.from('topics').select('*');
-  const { data: content } = await sb.from('content').select('*');
+  if(q.length<2){r.innerHTML=`<div class="es"><span class="be">🔎</span>Минимум 2 буквы</div>`;return;}
+  const {data:topics} = await sb.from('topics').select('*');
   const results = [];
-  (content||[]).forEach(c => {
-    let hay = '';
-    if (c.type==='h3'||c.type==='p'||c.type==='key') hay = c.text||'';
-    else if (c.type==='term') hay = (c.term||'')+' '+(c.def||'');
-    else if (c.type==='ul') hay = (c.items||[]).join(' ');
-    else if (c.type==='card') hay = (c.q||'')+' '+(c.a||'');
-    if (hay.toLowerCase().includes(q)) {
-      const t = (topics||[]).find(x=>x.id===c.topic_id);
-      if (t) results.push({ topicId: t.id, topicTitle: t.title, text: hay.slice(0, 120) });
+  (topics||[]).forEach(t=>{
+    const hay = ((t.title||'')+' '+(t.subtitle||'')+' '+(t.body||'')).toLowerCase();
+    if(hay.includes(q)){
+      const idx = hay.indexOf(q);
+      const snip = hay.slice(Math.max(0,idx-40),idx+80);
+      results.push({id:t.id,title:t.title,snip});
     }
   });
-  if (!results.length) { r.innerHTML = `<div class="es">😕 Ничего не найдено</div>`; return; }
-  r.innerHTML = `<div class="m">Найдено: ${results.length}</div>` + results.slice(0,30).map(x=>`<div class="ic2 cl" onclick="openTopic('${x.topicId}')"><div class="it">${eh(x.topicTitle)}</div><div class="is">${eh(x.text)}</div></div>`).join('');
+  if(!results.length){r.innerHTML=`<div class="es">😕 Ничего не найдено</div>`;return;}
+  r.innerHTML = `<div class="m">Найдено: ${results.length}</div>` + results.slice(0,30).map(x=>`<div class="ic2 cl" onclick="openTopic('${x.id}')"><div class="it">${eh(x.title)}</div><div class="is">…${eh(x.snip)}…</div></div>`).join('');
 }
 
 // ============================================================
-// АДМИНКА: ВХОД / ВЫХОД
+// АДМИН
 // ============================================================
-function toggleAdmin() {
-  if (S.session) {
-    if (confirm('Выйти из режима редактирования?')) {
-      sb.auth.signOut().then(() => { S.session = null; renderMenu(); });
+function toggleAdmin(){
+  if(S.session){
+    if(confirm('Выйти из режима редактирования?')){
+      sb.auth.signOut().then(()=>{S.session=null;renderMenu();});
     }
   } else {
-    showModal(`<h3>🔒 Вход для администратора</h3>
+    showModal(`<h3>🔒 Вход для админа</h3>
       <label class="lbl">Email</label>
       <input class="in" id="ae" value="admin@konspekt.local">
       <label class="lbl">Пароль</label>
@@ -478,201 +572,95 @@ function toggleAdmin() {
       <div class="ma"><button class="b" onclick="closeModal()">Отмена</button><button class="b pr" onclick="doAdminLogin()">Войти</button></div>`);
   }
 }
-async function doAdminLogin() {
+async function doAdminLogin(){
   const email = document.getElementById('ae').value.trim();
   const pass = document.getElementById('ap').value;
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  if (error) { alert('Ошибка: ' + error.message); return; }
+  const {data,error} = await sb.auth.signInWithPassword({email,password:pass});
+  if(error){alert('Ошибка: '+error.message);return;}
   S.session = data.session;
   closeModal();
   renderMenu();
 }
 
-// ============================================================
-// АДМИНКА: БЛОКИ
-// ============================================================
-function openBlockEditor(blockId) {
-  const b = blockId ? S.blocks.find(x=>x.id===blockId) : null;
-  showModal(`<h3>${blockId?'Редактировать':'Новый'} раздел</h3>
-    <label class="lbl">Название</label><input class="in" id="bn" value="${eh(b?.name||'')}" placeholder="Правовая подготовка">
-    <label class="lbl">Иконка (эмодзи)</label><input class="in" id="bi" value="${eh(b?.icon||'📘')}" placeholder="📘">
-    <label class="lbl">Описание</label><input class="in" id="bd" value="${eh(b?.description||'')}">
-    <label class="lbl">Порядок (число)</label><input class="in" id="bo" type="number" value="${b?.order_index||0}">
+// ЭМОДЗИ
+const EMOJIS = ['📘','📗','📕','📙','📔','📓','📒','📚','🎯','🔫','⚖️','🛡️','🚔','💊','🩺','🚨','🔥','⚠️','📋','🗂️','🏛️','👮','🎓','💼'];
+
+function openBlockEditor(blockId){
+  const b = blockId?S.blocks.find(x=>x.id===blockId):null;
+  let curIcon = b?.icon || '📘';
+  showModal(`<h3>${blockId?'Изменить':'Новый'} раздел</h3>
+    <label class="lbl">Название</label>
+    <input class="in" id="bn" value="${eh(b?.name||'')}" placeholder="Правовая подготовка">
+    <label class="lbl">Иконка</label>
+    <div class="emoji-grid" id="eg">${EMOJIS.map(e=>`<button type="button" class="${e===curIcon?'sel':''}" onclick="pickEmoji(this,'${e}')">${e}</button>`).join('')}</div>
+    <label class="lbl">Или своя (эмодзи/символ)</label>
+    <input class="in" id="bi" value="${eh(curIcon)}" maxlength="4">
+    <label class="lbl">Описание</label>
+    <input class="in" id="bd" value="${eh(b?.description||'')}">
+    <label class="lbl">Порядок (число, меньше — выше)</label>
+    <input class="in" id="bo" type="number" value="${b?.order_index||0}">
     <div class="ma"><button class="b" onclick="closeModal()">Отмена</button><button class="b pr" onclick="saveBlock('${blockId||''}')">Сохранить</button></div>`);
+  window.__pickedEmoji = curIcon;
 }
-async function saveBlock(id) {
-  const p = { name: document.getElementById('bn').value.trim(), icon: document.getElementById('bi').value.trim()||'📘', description: document.getElementById('bd').value.trim(), order_index: parseInt(document.getElementById('bo').value)||0 };
-  if (!p.name) { alert('Название обязательно'); return; }
-  const r = id ? await sb.from('blocks').update(p).eq('id',id) : await sb.from('blocks').insert(p);
-  if (r.error) { alert('Ошибка: '+r.error.message); return; }
+function pickEmoji(btn, emoji){
+  document.querySelectorAll('#eg button').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  window.__pickedEmoji = emoji;
+  document.getElementById('bi').value = emoji;
+}
+
+async function saveBlock(id){
+  const name = document.getElementById('bn').value.trim();
+  let icon = document.getElementById('bi').value.trim();
+  if(!icon) icon = window.__pickedEmoji || '📘';
+  const description = document.getElementById('bd').value.trim();
+  const order_index = parseInt(document.getElementById('bo').value)||0;
+  if(!name){alert('Название обязательно');return;}
+  const p = {name,icon,description,order_index};
+  const r = id?await sb.from('blocks').update(p).eq('id',id):await sb.from('blocks').insert(p);
+  if(r.error){alert('Ошибка: '+r.error.message);return;}
   closeModal();
-  if (S.curBlock) openBlock(S.curBlock.id); else renderMenu();
+  if(S.curBlock && id===S.curBlock.id){S.curBlock={...S.curBlock,...p};openBlock(S.curBlock.id);}
+  else renderMenu();
 }
-async function deleteBlock(id) {
-  if (!confirm('Удалить раздел со всеми темами? Необратимо.')) return;
+async function deleteBlock(id){
+  if(!confirm('Удалить раздел со всеми темами? Необратимо.'))return;
   await sb.from('blocks').delete().eq('id',id);
-  S.curBlock = null;
+  S.curBlock=null;
   renderMenu();
 }
 
-// ============================================================
-// АДМИНКА: ТЕМЫ
-// ============================================================
-function openTopicEditor(topicId) {
+function openTopicEditor(topicId){
   let t = null;
-  if (topicId) t = (S.curBlock && S.curBlock.topics) ? S.curBlock.topics.find(x=>x.id===topicId) : null;
-  showModal(`<h3>${topicId?'Редактировать':'Новая'} тема</h3>
-    <label class="lbl">Заголовок</label><input class="in" id="tt" value="${eh(t?.title||'')}">
-    <label class="lbl">Подзаголовок</label><input class="in" id="ts" value="${eh(t?.subtitle||'')}">
-    <label class="lbl">Порядок</label><input class="in" id="to" type="number" value="${t?.order_index||0}">
+  if(topicId){
+    const {data} = await sb.from('topics').select('*').eq('id',topicId).single();
+    t = data;
+  }
+  showModal(`<h3>${topicId?'Изменить':'Новая'} тема</h3>
+    <label class="lbl">Название</label>
+    <input class="in" id="tt" value="${eh(t?.title||'')}" placeholder="Например: Задержание">
+    <label class="lbl">Подзаголовок (необязательно)</label>
+    <input class="in" id="ts" value="${eh(t?.subtitle||'')}">
+    <label class="lbl">Порядок (число)</label>
+    <input class="in" id="to" type="number" value="${t?.order_index||0}">
     <div class="ma"><button class="b" onclick="closeModal()">Отмена</button><button class="b pr" onclick="saveTopic('${topicId||''}')">Сохранить</button></div>`);
 }
-async function saveTopic(id) {
-  const p = { block_id: S.curBlock.id, title: document.getElementById('tt').value.trim(), subtitle: document.getElementById('ts').value.trim(), order_index: parseInt(document.getElementById('to').value)||0 };
-  if (!p.title) { alert('Заголовок обязателен'); return; }
-  const r = id ? await sb.from('topics').update(p).eq('id',id) : await sb.from('topics').insert(p);
-  if (r.error) { alert('Ошибка: '+r.error.message); return; }
+async function saveTopic(id){
+  const title = document.getElementById('tt').value.trim();
+  const subtitle = document.getElementById('ts').value.trim();
+  const order_index = parseInt(document.getElementById('to').value)||0;
+  if(!title){alert('Название обязательно');return;}
+  const p = {block_id:S.curBlock.id,title,subtitle,order_index};
+  const r = id?await sb.from('topics').update(p).eq('id',id):await sb.from('topics').insert(p);
+  if(r.error){alert('Ошибка: '+r.error.message);return;}
   closeModal();
-  if (S.curTopic && id === S.curTopic.id) { S.curTopic.title = p.title; S.curTopic.subtitle = p.subtitle; openTopic(S.curTopic.id); }
-  else openBlock(S.curBlock.id);
-}
-async function deleteTopic(id) {
-  if (!confirm('Удалить тему со всем содержимым?')) return;
-  await sb.from('topics').delete().eq('id',id);
-  if (S.curTopic && S.curTopic.id===id) S.curTopic = null;
   openBlock(S.curBlock.id);
 }
-
-// ============================================================
-// АДМИНКА: КОНТЕНТ
-// ============================================================
-function openContentEditor(contentId) {
-  let c = null;
-  if (contentId) c = (S.curContent||[]).find(x=>x.id===contentId);
-  const type = c?.type || 'p';
-  let fields = `<label class="lbl">Тип блока</label>
-    <select class="in" id="ct" onchange="renderContentFields()">
-      <option value="h3" ${type==='h3'?'selected':''}>Заголовок (H3)</option>
-      <option value="p" ${type==='p'?'selected':''}>Абзац</option>
-      <option value="key" ${type==='key'?'selected':''}>Ключевой тезис</option>
-      <option value="term" ${type==='term'?'selected':''}>Термин</option>
-      <option value="ul" ${type==='ul'?'selected':''}>Список</option>
-      <option value="card" ${type==='card'?'selected':''}>Карточка (вопрос-ответ)</option>
-      <option value="image" ${type==='image'?'selected':''}>Картинка</option>
-    </select>
-    <div id="cf"></div>
-    <div class="ma"><button class="b" onclick="closeModal()">Отмена</button><button class="b pr" onclick="saveContent('${contentId||''}')">Сохранить</button></div>`;
-  showModal(`<h3>${contentId?'Редактировать':'Новый'} блок</h3>${fields}`);
-  window.__c = c;
-  renderContentFields();
-}
-function renderContentFields() {
-  const t = document.getElementById('ct').value;
-  const c = window.__c || {};
-  const f = document.getElementById('cf');
-  if (t==='h3'||t==='p'||t==='key') {
-    f.innerHTML = `<label class="lbl">Текст</label><textarea class="ta" id="cfText">${eh(c.text||'')}</textarea>`;
-  } else if (t==='term') {
-    f.innerHTML = `<label class="lbl">Термин</label><input class="in" id="cfTerm" value="${eh(c.term||'')}">
-      <label class="lbl">Определение</label><textarea class="ta" id="cfDef">${eh(c.def||'')}</textarea>`;
-  } else if (t==='ul') {
-    f.innerHTML = `<label class="lbl">Пункты (каждый с новой строки)</label>
-      <textarea class="ta" id="cfItems" style="min-height:140px">${eh((c.items||[]).join('\n'))}</textarea>`;
-  } else if (t==='card') {
-    f.innerHTML = `<label class="lbl">Вопрос</label><input class="in" id="cfQ" value="${eh(c.q||'')}">
-      <label class="lbl">Ответ</label><textarea class="ta" id="cfA">${eh(c.a||'')}</textarea>`;
-  } else if (t==='image') {
-    f.innerHTML = `<label class="lbl">URL картинки</label><input class="in" id="cfImg" value="${eh(c.image_url||'')}" placeholder="https://...">
-      <div class="up-box" onclick="document.getElementById('cfFile').click()">📷 Или загрузить файл с устройства</div>
-      <input type="file" id="cfFile" accept="image/*" style="display:none" onchange="uploadContentImage(this)">
-      <label class="lbl">Подпись</label><input class="in" id="cfCap" value="${eh(c.image_caption||'')}">`;
-  }
-}
-async function uploadContentImage(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const fn = Date.now() + '_' + file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-  const { data, error } = await sb.storage.from('konspekt-images').upload(fn, file);
-  if (error) { alert('Ошибка загрузки: ' + error.message); return; }
-  const { data: pub } = sb.storage.from('konspekt-images').getPublicUrl(fn);
-  document.getElementById('cfImg').value = pub.publicUrl;
-  alert('✅ Картинка загружена');
-}
-async function saveContent(id) {
-  const t = document.getElementById('ct').value;
-  const p = { topic_id: S.curTopic.id, type: t, order_index: 0 };
-  if (t==='h3'||t==='p'||t==='key') p.text = document.getElementById('cfText').value;
-  else if (t==='term') { p.term = document.getElementById('cfTerm').value; p.def = document.getElementById('cfDef').value; }
-  else if (t==='ul') p.items = document.getElementById('cfItems').value.split('\n').map(x=>x.trim()).filter(Boolean);
-  else if (t==='card') { p.q = document.getElementById('cfQ').value; p.a = document.getElementById('cfA').value; }
-  else if (t==='image') { p.image_url = document.getElementById('cfImg').value; p.image_caption = document.getElementById('cfCap').value; }
-  const r = id ? await sb.from('content').update(p).eq('id',id) : await sb.from('content').insert(p);
-  if (r.error) { alert('Ошибка: '+r.error.message); return; }
-  closeModal();
-  openTopic(S.curTopic.id);
-}
-async function deleteContent(id) {
-  if (!confirm('Удалить блок?')) return;
-  await sb.from('content').delete().eq('id',id);
-  openTopic(S.curTopic.id);
-}
-
-// ============================================================
-// АДМИНКА: ЧЕК-ЛИСТ
-// ============================================================
-function openChecklistEditor() {
-  const items = S.curChecklist || [];
-  showModal(`<h3>☑️ Чек-лист «Что надо знать»</h3>
-    <div class="ib">Каждый пункт — с новой строки</div>
-    <textarea class="ta" id="clText" style="min-height:200px">${items.map(x=>eh(x.text)).join('\n')}</textarea>
-    <div class="ma"><button class="b" onclick="closeModal()">Отмена</button><button class="b pr" onclick="saveChecklist()">Сохранить</button></div>`);
-}
-async function saveChecklist() {
-  const lines = document.getElementById('clText').value.split('\n').map(x=>x.trim()).filter(Boolean);
-  await sb.from('checklist').delete().eq('topic_id', S.curTopic.id);
-  if (lines.length) {
-    await sb.from('checklist').insert(lines.map((t,i)=>({topic_id:S.curTopic.id, text:t, order_index:i})));
-  }
-  closeModal();
-  openTopic(S.curTopic.id);
-}
-
-// ============================================================
-// АДМИНКА: РАСПИСАНИЕ И РАСПОРЯДОК
-// ============================================================
-function openScheduleEditor() {
-  const text = JSON.stringify(S.schedule, null, 2);
-  showModal(`<h3>📅 Расписание (JSON)</h3>
-    <div class="ib">Формат:<br><code>[{"dayIdx":1,"title":"Понедельник","date":"13.10.2026","lessons":[{"time":"09:30-11:00","subj":"Физ.подг."}]}]</code><br><br>dayIdx: 0=Вс, 1=Пн, 2=Вт, 3=Ср, 4=Чт, 5=Пт, 6=Сб</div>
-    <textarea class="ta" id="schText" style="min-height:300px;font-family:monospace;font-size:13px">${eh(text)}</textarea>
-    <div class="ma"><button class="b" onclick="closeModal()">Отмена</button><button class="b pr" onclick="saveSchedule()">Сохранить</button></div>`);
-}
-async function saveSchedule() {
-  try {
-    const v = JSON.parse(document.getElementById('schText').value);
-    const r = await sb.from('settings').upsert({key:'schedule', value:v, updated_at:new Date().toISOString()});
-    if (r.error) { alert('Ошибка: '+r.error.message); return; }
-    S.schedule = v;
-    closeModal();
-    renderMenu();
-  } catch(e) { alert('Неверный JSON: ' + e.message); }
-}
-function openRoutineEditor() {
-  const text = JSON.stringify(S.routine, null, 2);
-  showModal(`<h3>⏰ Распорядок дня (JSON)</h3>
-    <div class="ib">Формат:<br><code>[{"time":"09:00","what":"Прибытие в ЦПП"}]</code></div>
-    <textarea class="ta" id="rtText" style="min-height:300px;font-family:monospace;font-size:13px">${eh(text)}</textarea>
-    <div class="ma"><button class="b" onclick="closeModal()">Отмена</button><button class="b pr" onclick="saveRoutine()">Сохранить</button></div>`);
-}
-async function saveRoutine() {
-  try {
-    const v = JSON.parse(document.getElementById('rtText').value);
-    const r = await sb.from('settings').upsert({key:'routine', value:v, updated_at:new Date().toISOString()});
-    if (r.error) { alert('Ошибка: '+r.error.message); return; }
-    S.routine = v;
-    closeModal();
-    renderMenu();
-  } catch(e) { alert('Неверный JSON: ' + e.message); }
+async function deleteTopic(id){
+  if(!confirm('Удалить тему?'))return;
+  await sb.from('topics').delete().eq('id',id);
+  if(S.curTopic && S.curTopic.id===id) S.curTopic=null;
+  openBlock(S.curBlock.id);
 }
 
 // СТАРТ
